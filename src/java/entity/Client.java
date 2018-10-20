@@ -13,9 +13,9 @@ import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@NamedQueries(
-        {@NamedQuery(name = "getAllClients", query = "SELECT c from Client c ORDER BY c.name")}
-)
+@NamedQueries({
+    @NamedQuery(name = "getAllClients", query = "SELECT c from Client c ORDER BY c.name")
+})
 public class Client extends User implements Serializable {
     
     @ManyToMany(mappedBy = "clients")

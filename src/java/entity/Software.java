@@ -41,10 +41,6 @@ public class Software implements Serializable {
         configurations.remove(config);
     }
     
-    
-    
-    
-    
     public Long getId() {
         return id;
     }
