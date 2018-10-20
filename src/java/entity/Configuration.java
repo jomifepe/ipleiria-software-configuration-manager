@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,6 +60,13 @@ public class Configuration implements Serializable {
     private Status status;
 
     public Configuration() {
+        clients = new ArrayList<>();
+        modules = new ArrayList<>();
+        hardwares = new ArrayList<>();
+        services = new ArrayList<>();
+        licences = new ArrayList<>();
+        parameters = new ArrayList<>();
+        extensions = new ArrayList<>();
     }
 
     public Configuration(Long id, String description, Software software, String contract_data, Status status) {
@@ -67,6 +75,13 @@ public class Configuration implements Serializable {
         this.software = software;
         this.contract_data = contract_data;
         this.status = status;
+        modules = new ArrayList<>();
+        hardwares = new ArrayList<>();
+        services = new ArrayList<>();
+        licences = new ArrayList<>();
+        parameters = new ArrayList<>();
+        extensions = new ArrayList<>();
+        clients = new ArrayList<>();
     }
 
     
@@ -174,4 +189,5 @@ public class Configuration implements Serializable {
         this.clients = clients;
     }
  
+    
 }

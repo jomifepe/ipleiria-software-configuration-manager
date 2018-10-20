@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -20,6 +21,8 @@ public class License implements Serializable {
 
     @Id
     private String name;
+    
+    @NotNull
     private String serial;
 
     public License() {

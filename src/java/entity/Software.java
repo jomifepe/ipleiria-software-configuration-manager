@@ -6,10 +6,10 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -30,19 +30,32 @@ public class Software implements Serializable {
     private String baseVersion;
     
     @OneToMany(mappedBy = "software", cascade = CascadeType.REMOVE)
-    private Configuration configuration;
+    private List<Configuration> configurations;
 
     public Software() {
+        configurations = new ArrayList<>();
     }
 
-    public Software(Long id, String name, String baseVersion, Configuration configuration) {
+    public Software(Long id, String name, String baseVersion) {
         this.id = id;
         this.name = name;
-        this.baseVersion = baseVersion;
-        this.configuration = configuration;
+        this.baseVersion = baseVersion; 
+        configurations = new ArrayList<>();
     }
 
    
+    public void addConfiguration(Configuration config){
+        configurations.add(config);
+    }
+    
+    public void remveConfiguration(Configuration config){
+        configurations.remove(config);
+    }
+    
+    
+    
+    
+    
     public Long getId() {
         return id;
     }
@@ -67,12 +80,16 @@ public class Software implements Serializable {
         this.baseVersion = baseVersion;
     }
 
-    public Configuration getConfiguration() {
-        return configuration;
+    public List<Configuration> getConfigurations() {
+        return configurations;
     }
 
-    public void setConfiguration(Configuration configuration) {
-        this.configuration = configuration;
+    public void setConfigurations(List<Configuration> configurations) {
+        this.configurations = configurations;
     }
+
+    
+    
+    
     
 }

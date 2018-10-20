@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,14 +18,16 @@ import javax.validation.constraints.NotNull;
 )
 public class Client extends User implements Serializable {
     
-    @ManyToMany(mappedBy = "CLIENTS")
+    @ManyToMany(mappedBy = "clients")
     private List<Configuration> configurations;
 
     public Client() {
+        configurations = new ArrayList<>();
     }
 
     public Client(String username, String password, String name, String email) {
         super(username, password, name, email);
+        configurations = new ArrayList<>();
     }
     
     
