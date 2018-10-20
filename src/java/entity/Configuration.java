@@ -28,7 +28,7 @@ public class Configuration implements Serializable {
     private String description;
     
     @ManyToOne
-    @JoinColumn(name="SOFTWARE_CODE")
+    @JoinColumn(name="SOFTWARE_ID")
     @NotNull
     private Software software;
     

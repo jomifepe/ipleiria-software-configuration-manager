@@ -6,16 +6,21 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "SOFTWARE", uniqueConstraints = @UniqueConstraint(columnNames = {"NAME"}))
+@NamedQueries({
+    @NamedQuery(name = "getAllSoftwares", query = "SELECT s from Software s ORDER BY s.name")
+})
 public class Software implements Serializable {
 
     @Id
-    private Long id;
+    private int id;
     private String name;
     private String baseVersion;
     
@@ -26,7 +31,7 @@ public class Software implements Serializable {
         configurations = new ArrayList<>();
     }
 
-    public Software(Long id, String name, String baseVersion) {
+    public Software(int id, String name, String baseVersion) {
         this.id = id;
         this.name = name;
         this.baseVersion = baseVersion; 
@@ -41,11 +46,11 @@ public class Software implements Serializable {
         configurations.remove(config);
     }
     
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

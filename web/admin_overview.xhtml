@@ -13,7 +13,7 @@
     <h:body>
         <header class="section-header container mt-3">
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded">
-            <a class="navbar-brand" href="#">SCM</a>
+                <a class="navbar-brand" href="#">SCM</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">    
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -25,7 +25,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Configurations</a>
                         </li>
-                        
                     </ul>
                     <ul class="navbar-nav float-right">
                         <li class="nav-item dropdown">
@@ -34,12 +33,12 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="#">Sign out</a>
-                          </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
             </nav>
-            
+
             <h:panelGrid columns="2">
                 <h:outputLabel for="username" value="Username: "/>
                 <h:outputText id="username" value="#{SoftwareManager.currentUser.username}"/>
@@ -48,13 +47,14 @@
                 <h:outputLabel for="email" value="Email "/>
                 <h:outputText id="email" value="#{SoftwareManager.currentUser.email}"/>           
             </h:panelGrid>
-        </header>  
-        
-        <section class="section-content">     
-        </section> 
-        
+
+        </header>
+        <section class="section-content">
+        </section>
         <script type="text/javascript" src="assets/js/vendor/jquery.min.js"></script>
         <script type="text/javascript" src="assets/js/vendor/bootstrap.min.js"></script>
     </h:body>
 </html>
+
+
 
