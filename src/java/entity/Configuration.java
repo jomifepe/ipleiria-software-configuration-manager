@@ -17,10 +17,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-/**
- *
- * @author luisflores
- */
 @Entity
 public class Configuration implements Serializable {
 
@@ -30,8 +26,8 @@ public class Configuration implements Serializable {
     @NotNull
     private String description;
     
-    @ManyToOne
-    @JoinColumn(name="SOFTWARE_CODE")
+//    @ManyToOne
+//    @JoinColumn(name="SOFTWARE_CODE")
     @NotNull
     private Software software;
     
@@ -41,16 +37,12 @@ public class Configuration implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "CLIENT_USERNAME", referencedColumnName = "USERNAME"))
     private List<Client> clients;
     
-    
     private List<Module> modules;
-    private List<String> hardwares;
+    private List<String> hardware;
     private List<String> services;
     private List<License> licences;
     private List<Parameter> parameters;
     private List<String> extensions;
-    
-    
-
     
     @NotNull
     private String contract_data;
@@ -111,11 +103,11 @@ public class Configuration implements Serializable {
     }
 
     public List<String> getHardwares() {
-        return hardwares;
+        return hardware;
     }
 
     public void setHardwares(List<String> hardwares) {
-        this.hardwares = hardwares;
+        this.hardware = hardwares;
     }
 
     public List<String> getServices() {
