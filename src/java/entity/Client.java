@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 )
 public class Client extends User implements Serializable {
     
-    @ManyToMany(mappedBy = "clients")
+    @ManyToMany(mappedBy = "CLIENTS")
     private List<Configuration> configurations;
 
     public Client() {
@@ -43,7 +43,5 @@ public class Client extends User implements Serializable {
     public void setConfigurations(List<Configuration> configurations) {
         this.configurations = configurations;
     }
-    
-    
-    
+      
 }

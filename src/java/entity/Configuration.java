@@ -11,6 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -26,8 +30,16 @@ public class Configuration implements Serializable {
     @NotNull
     private String description;
     
+    @ManyToOne
+    @JoinColumn(name="SOFTWARE_CODE")
     @NotNull
     private Software software;
+    
+    @ManyToMany
+    @JoinTable(name = "CLIENTS_CONFIGURATIONS",
+        joinColumns = @JoinColumn(name = "CONFIGURATION_ID", referencedColumnName = "ID"),
+        inverseJoinColumns = @JoinColumn(name = "CLIENT_USERNAME", referencedColumnName = "USERNAME"))
+    private List<Client> clients;
     
     
     private List<Module> modules;
@@ -36,6 +48,9 @@ public class Configuration implements Serializable {
     private List<License> licences;
     private List<Parameter> parameters;
     private List<String> extensions;
+    
+    
+
     
     @NotNull
     private String contract_data;
@@ -55,8 +70,13 @@ public class Configuration implements Serializable {
     }
 
     
+    public void addClient(Client client){
+        clients.add(client);
+    }
     
-    
+    public void removeClient(Client client){
+        clients.remove(client);
+    }
     
     public Long getId() {
         return id;
@@ -145,8 +165,13 @@ public class Configuration implements Serializable {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
+    }
  
-    
-    
-    
 }
