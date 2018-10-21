@@ -7,6 +7,7 @@ package web;
 
 import ejb.AdministratorBean;
 import ejb.ClientBean;
+import entity.Administrator;
 import entity.Client;
 import entity.User;
 import java.io.Serializable;
@@ -17,10 +18,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 
-@Named(value = "SoftwareManager")
+@Named(value = "softwareManager")
 @SessionScoped
 public class SoftwareManager implements Serializable {
-
     private static final long serialVersionUID = 1094801825228386363L;
 
     private String pwd;
@@ -59,8 +59,6 @@ public class SoftwareManager implements Serializable {
         this.currentUser = currentUser;
     }
     
-    
-
     public String getUser() {
             return user;
     }
@@ -68,23 +66,27 @@ public class SoftwareManager implements Serializable {
     public void setUser(String user) {
             this.user = user;
     }
+    
+    public String getUserFirstName() {
+        return currentUser.getName().split(" ")[0];
+    }
+    
+    public boolean isCurrentUserAdmin() {
+        return currentUser instanceof Administrator;
+    }
 
     public String validateUsernamePassword() {
         currentUser = null;
-        //USER BEAN??
-        
-        
-        currentUser = clientBean.validClient(user, pwd);
+   
+        currentUser = clientBean.isValid(user, pwd);
       
         if(currentUser == null){ //É client?
             currentUser = administratorBean.validAdmin(user, pwd);
             if(currentUser == null){//É admin?
                 return "login";
-            }else{
-                return "admin_overview";
             }
-        }else{
-            return "client_overview";
-        }		
+        }
+        
+        return "user_overview";
     }
 }

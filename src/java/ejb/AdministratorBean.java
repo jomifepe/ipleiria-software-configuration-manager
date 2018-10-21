@@ -1,7 +1,6 @@
 package ejb;
 
 import entity.Administrator;
-import entity.User;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -14,7 +13,7 @@ public class AdministratorBean {
     @PersistenceContext
     EntityManager em;
     
-  public void create(String username, String password, String name, String email){
+    public void create(String username, String password, String name, String email){
         try{
            Administrator administrator = new Administrator(username, password, name, email);      
             em.persist(administrator);
@@ -62,20 +61,16 @@ public class AdministratorBean {
         }
     }
     
-    public Administrator validAdmin(String username, String password){
-        try{
+    public Administrator validAdmin(String username, String password) {
+        try {
             Administrator administrator = em.find(Administrator.class, username);
-            if(administrator == null){
+            if (administrator == null || !administrator.getPassword().equals(password)) {
                 return null;
             }
-            if(!administrator.getPassword().equals(password)){
-                return null;
-            }
-            return administrator;    
             
-        }catch(Exception e){
+            return administrator;
+        } catch (Exception e) {
             throw new EJBException("Problem validating Administrator -> " + e.getMessage());
         }
     }
-    
 }

@@ -36,7 +36,7 @@
                                     size="20"
                                     required="true"
                                     requiredMessage="Error: Username cannot be empty"
-                                    value="#{SoftwareManager.user}" />
+                                    value="#{softwareManager.user}" />
                                 <small><h:message for="username" class="form-text" errorStyle="color:red"/></small>
                             </div>
                             <div class="form-group">
@@ -47,7 +47,7 @@
                                     size="20"
                                     required="true"
                                     requiredMessage="Error: Password cannot be empty"
-                                    value="#{SoftwareManager.pwd}" />
+                                    value="#{softwareManager.pwd}" />
                                 <small><h:message for="password" class="form-text" errorStyle="color:red"/></small>
                             </div>
                             <div class="form-group form-check">
@@ -56,8 +56,7 @@
                                     class="form-check-input" />
                                 <h:outputLabel class="form-check-label" for="rememberMeCheckbox" value="Remember me" />
                             </div>
-                           <!-- <h:link class="btn btn-success btn-block" value="Sign in" outcome="client_overview" /> -->
-                            <h:commandButton  class="btn btn-success btn-block" value="Sign in" action="#{SoftwareManager.validateUsernamePassword}"></h:commandButton>
+                            <h:commandButton  class="btn btn-success btn-block" value="Sign in" action="#{softwareManager.validateUsernamePassword}"></h:commandButton>
                         </h:form>
                     </div>
                 </div>

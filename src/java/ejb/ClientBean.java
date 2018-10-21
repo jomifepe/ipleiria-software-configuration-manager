@@ -62,18 +62,15 @@ public class ClientBean {
         }
     }
     
-    public Client validClient(String username, String password){
-        try{
+    public Client isValid(String username, String password) {
+        try {
             Client client = em.find(Client.class, username);
-            if(client == null){
+            if (client == null || !client.getPassword().equals(password)) {
                 return null;
             }
-            if(!client.getPassword().equals(password)){
-                return null;
-            }
-            return client;   
             
-        }catch(Exception e){
+            return client;
+        } catch (Exception e) {
             throw new EJBException("Problem validating Client -> " + e.getMessage());
         }
     }
