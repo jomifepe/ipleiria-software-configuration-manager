@@ -18,6 +18,9 @@ import javax.validation.constraints.NotNull;
 })
 public class Client extends User implements Serializable {
     
+    @NotNull private String address;
+    @NotNull private String contact;
+    
     @ManyToMany(mappedBy = "clients")
     private List<Configuration> configurations;
 
@@ -25,8 +28,10 @@ public class Client extends User implements Serializable {
         configurations = new ArrayList<>();
     }
 
-    public Client(String username, String password, String name, String email) {
+    public Client(String username, String password, String name, String email, String address, String contact) {
         super(username, password, name, email);
+        this.address = address;
+        this.contact = contact;
         configurations = new ArrayList<>();
     }
     
@@ -46,5 +51,20 @@ public class Client extends User implements Serializable {
     public void setConfigurations(List<Configuration> configurations) {
         this.configurations = configurations;
     }
-      
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
 }

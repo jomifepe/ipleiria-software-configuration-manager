@@ -22,38 +22,87 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Configuration implements Serializable {
 private static final long serialVersionUID = 1L;
-    @Id
+
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @NotNull
-    private String description;
-    @NotNull
-    private Software software;
+    @Id private Long id;
+    
+    @NotNull private String description;
+    
+    @ManyToOne
+    @JoinColumn(name="SOFTWARE_ID")
+    @NotNull private Software software;
+    
+    @ManyToMany
+    @JoinTable(name = "CLIENTS_CONFIGURATIONS",
+        joinColumns = @JoinColumn(name = "CONFIGURATION_ID", referencedColumnName = "ID"),
+        inverseJoinColumns = @JoinColumn(name = "CLIENT_USERNAME", referencedColumnName = "USERNAME"))
+    private List<Client> clients;
+        
     private List<Module> modules;
-    private List<String> hardwares;
+    private List<String> hardware;
     private List<String> services;
     private List<String> licences;
     private List<Parameter> parameters;
     private List<String> extensions;
-    @NotNull
-    private String contract_info;
+    
+    @NotNull private String contractInfo;
     private Status status;
 
     public Configuration() {
+        this.clients = new ArrayList<>();
+        this.modules = new ArrayList<>();
+        this.hardware = new ArrayList<>();
+        this.services = new ArrayList<>();
+        this.licences = new ArrayList<>();
+        this.parameters = new ArrayList<>();
+        this.extensions = new ArrayList<>();
     }
 
-    public Configuration(String description, Software software, String contract_info, Status status) {
+    public Configuration(String description, Software software, String contractInfo, Status status) {
         this.description = description;
         this.software = software;
-        this.modules=new LinkedList<Module>();
-        this.hardwares=new LinkedList<String>();
-        this.services=new LinkedList<String>();
-        this.licences=new LinkedList<String>();
-        this.parameters=new LinkedList<Parameter>();
-        this.extensions=new LinkedList<String>();
-        this.contract_info = contract_info;
+        this.clients = new ArrayList<>();
+        this.modules = new ArrayList<>();
+        this.hardware = new ArrayList<>();
+        this.services = new ArrayList<>();
+        this.licences = new ArrayList<>();
+        this.parameters = new ArrayList<>();
+        this.extensions = new ArrayList<>();
+        this.contractInfo = contractInfo;
         this.status = status;
-    }   
+    }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
+    }
+
+    public List<String> getHardware() {
+        return hardware;
+    }
+
+    public void setHardware(List<String> hardware) {
+        this.hardware = hardware;
+    }
+
+    public String getContractInfo() {
+        return contractInfo;
+    }
+
+    public void setContractInfo(String contractInfo) {
+        this.contractInfo = contractInfo;
+    }
+    
+    public void addClient(Client client){
+        clients.add(client);
+    }
+    
+    public void removeClient(Client client){
+        clients.remove(client);
+    }
     
     public String getDescription() {
         return description;
@@ -80,11 +129,11 @@ private static final long serialVersionUID = 1L;
     }
 
     public List<String> getHardwares() {
-        return hardwares;
+        return hardware;
     }
 
     public void setHardwares(List<String> hardwares) {
-        this.hardwares = hardwares;
+        this.hardware = hardwares;
     }
 
     public List<String> getServices() {
@@ -120,11 +169,11 @@ private static final long serialVersionUID = 1L;
     }
 
     public String getContract_info() {
-        return contract_info;
+        return contractInfo;
     }
 
     public void setContract_info(String contract_info) {
-        this.contract_info = contract_info;
+        this.contractInfo = contract_info;
     }
 
     public Status getStatus() {
@@ -135,9 +184,6 @@ private static final long serialVersionUID = 1L;
         this.status = status;
     }
     
-    
-    
-
     public Long getId() {
         return id;
     }
@@ -145,6 +191,4 @@ private static final long serialVersionUID = 1L;
     public void setId(Long id) {
         this.id = id;
     }
- 
-    
 }

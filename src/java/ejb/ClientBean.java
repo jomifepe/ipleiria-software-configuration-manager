@@ -14,9 +14,9 @@ public class ClientBean {
     @PersistenceContext
     EntityManager em;
     
-    public void create(String username, String password, String name, String email){
+    public void create(String username, String password, String name, String email, String address, String contact){
         try{
-           Client client = new Client(username, password, name, email);      
+           Client client = new Client(username, password, name, email, address, contact);      
             em.persist(client); //Inserir na BD
         }catch(Exception e){
             throw new EJBException("Problem creating Client (DB persist) -> " + e.getMessage());

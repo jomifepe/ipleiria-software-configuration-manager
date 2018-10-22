@@ -11,6 +11,8 @@ import entity.Administrator;
 import entity.Client;
 import entity.User;
 import java.io.Serializable;
+import java.util.List;
+import java.util.logging.Logger;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 
@@ -22,25 +24,23 @@ import javax.inject.Named;
 @SessionScoped
 public class SoftwareManager implements Serializable {
     private static final long serialVersionUID = 1094801825228386363L;
-
-    private String pwd;
+    private static final Logger logger = Logger.getLogger("web.SoftwareManager");
+ 
     private String msg;
-    private String user;
+    private String userUsername;
+    private String userPassword;
     
     private User currentUser;
 
-    @EJB
-    private ClientBean clientBean;
+    @EJB private ClientBean clientBean;
+    @EJB private AdministratorBean administratorBean;
 
-    @EJB
-    private AdministratorBean administratorBean;
-
-    public String getPwd() {
-            return pwd;
+    public String getUserPassword() {
+            return userPassword;
     }
 
-    public void setPwd(String pwd) {
-            this.pwd = pwd;
+    public void setUserPassword(String pwd) {
+            this.userPassword = pwd;
     }
 
     public String getMsg() {
@@ -59,12 +59,12 @@ public class SoftwareManager implements Serializable {
         this.currentUser = currentUser;
     }
     
-    public String getUser() {
-            return user;
+    public String getUserUsername() {
+            return userUsername;
     }
 
-    public void setUser(String user) {
-            this.user = user;
+    public void setUserUsername(String user) {
+            this.userUsername = user;
     }
     
     public String getUserFirstName() {
@@ -78,15 +78,33 @@ public class SoftwareManager implements Serializable {
     public String validateUsernamePassword() {
         currentUser = null;
    
-        currentUser = clientBean.isValid(user, pwd);
+        currentUser = clientBean.isValid(userUsername, userPassword);
       
         if(currentUser == null){ //É client?
-            currentUser = administratorBean.validAdmin(user, pwd);
+            currentUser = administratorBean.validAdmin(userUsername, userPassword);
             if(currentUser == null){//É admin?
                 return "login";
             }
         }
         
         return "user_overview";
+    }
+    
+    public List<Client> getAllClients() {
+        try {
+            return clientBean.getAll();
+        } catch (Exception e) {
+            logger.warning("Problem fetching all clients in method getAllClients");
+            return null;
+        }
+    }
+    
+    public List<Administrator> getAllAdministrators() {
+        try {
+            return administratorBean.getAll();
+        } catch (Exception e) {
+            logger.warning("Problem fetching all administrators in method getAllAdministrators");
+            return null;
+        }
     }
 }

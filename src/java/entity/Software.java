@@ -19,8 +19,7 @@ import javax.persistence.UniqueConstraint;
 })
 public class Software implements Serializable {
 
-    @Id
-    private int id;
+    @Id private int id;
     private String name;
     private String baseVersion;
     
@@ -35,7 +34,7 @@ public class Software implements Serializable {
         this.id = id;
         this.name = name;
         this.baseVersion = baseVersion; 
-        configurations = new ArrayList<>();
+        this.configurations = new ArrayList<>();
     }
    
     public void addConfiguration(Configuration config){

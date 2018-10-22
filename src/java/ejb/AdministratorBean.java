@@ -13,9 +13,9 @@ public class AdministratorBean {
     @PersistenceContext
     EntityManager em;
     
-    public void create(String username, String password, String name, String email){
+    public void create(String username, String password, String name, String email, String role){
         try{
-           Administrator administrator = new Administrator(username, password, name, email);      
+           Administrator administrator = new Administrator(username, password, name, email, role);      
             em.persist(administrator);
         }catch(Exception e){
             throw new EJBException("Problem creating Administrator (DB persist) -> " + e.getMessage());

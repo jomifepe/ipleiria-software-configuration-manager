@@ -21,12 +21,13 @@ public class TestBean {
     
     @PostConstruct
     public void populateDB() {
-        administratorBean.create("luis", "123", "Luís Flores", "luis@mail.pt");
-            
-        clientBean.create("zepato", "123", "Ze", "ze@pato.pt");
-        clientBean.create("ana", "123", "Ana Pereira", "ana@mail.pt");
-        clientBean.create("maria", "123", "Maria Amelia", "maria@mail.pt");
-        clientBean.create("joana", "123", "Joana Preto", "joana@mail.pt");
+        administratorBean.create("luis", "123", "Luís Jejum Flures", "flures@fax.pt", "pleb");
+        administratorBean.create("ze", "123", "José Pereira", "ze@plebking.pt", "sudo");
+        
+        clientBean.create("valentim", "123", "Valentim Terra", "valentim@mail.pt", "Rua das ruas", "915548796");
+        clientBean.create("aron", "123", "Aron Bado", "aron@mail.pt", "Travessa das travessas", "965984123");
+        clientBean.create("maria", "123", "Maria Amelia", "maria@mail.pt", "Avenida das avenidas", "925863214");
+        clientBean.create("joana", "123", "Joana Preto", "joana@mail.pt", "Quinta das quintas", "936581278");
              
         softwareBean.create(1, "Office 365", "v1.0");
         softwareBean.create(2, "NetBeans", "v13.0");

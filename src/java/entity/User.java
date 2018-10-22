@@ -16,16 +16,16 @@ import javax.validation.constraints.Pattern;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User implements Serializable {
     
-    @Id private String username;
-    @NotNull private String password;
+    @Id protected String username;
+    @NotNull protected String password;
     
     @Pattern(regexp = "^[\\p{L}\\s]*$", message = " {invalid.name}")
-    @NotNull private String name;
+    @NotNull protected String name;
     
     @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."+
     "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"+"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
     message = "{invalid.email}")
-    @NotNull private String email;
+    @NotNull protected String email;
     
     public User(){
     }
@@ -61,7 +61,7 @@ public class User implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -69,5 +69,4 @@ public class User implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
 }
