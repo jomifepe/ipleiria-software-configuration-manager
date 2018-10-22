@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,79 +21,40 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Configuration implements Serializable {
-
+private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
     @NotNull
     private String description;
-    
-    @ManyToOne
-    @JoinColumn(name="SOFTWARE_ID")
     @NotNull
     private Software software;
-    
-    @ManyToMany
-    @JoinTable(name = "CLIENTS_CONFIGURATIONS",
-        joinColumns = @JoinColumn(name = "CONFIGURATION_ID", referencedColumnName = "ID"),
-        inverseJoinColumns = @JoinColumn(name = "CLIENT_USERNAME", referencedColumnName = "USERNAME"))
-    private List<Client> clients;
-    
     private List<Module> modules;
-    private List<String> hardware;
+    private List<String> hardwares;
     private List<String> services;
-    private List<License> licences;
+    private List<String> licences;
     private List<Parameter> parameters;
     private List<String> extensions;
-    
     @NotNull
-    private String contract_data;
-    
-    @NotNull
+    private String contract_info;
     private Status status;
 
     public Configuration() {
-        clients = new ArrayList<>();
-        modules = new ArrayList<>();
-        hardware = new ArrayList<>();
-        services = new ArrayList<>();
-        licences = new ArrayList<>();
-        parameters = new ArrayList<>();
-        extensions = new ArrayList<>();
     }
 
-    public Configuration(Long id, String description, Software software, String contract_data, Status status) {
-        this.id = id;
+    public Configuration(String description, Software software, String contract_info, Status status) {
         this.description = description;
         this.software = software;
-        this.contract_data = contract_data;
+        this.modules=new LinkedList<Module>();
+        this.hardwares=new LinkedList<String>();
+        this.services=new LinkedList<String>();
+        this.licences=new LinkedList<String>();
+        this.parameters=new LinkedList<Parameter>();
+        this.extensions=new LinkedList<String>();
+        this.contract_info = contract_info;
         this.status = status;
-        modules = new ArrayList<>();
-        hardware = new ArrayList<>();
-        services = new ArrayList<>();
-        licences = new ArrayList<>();
-        parameters = new ArrayList<>();
-        extensions = new ArrayList<>();
-        clients = new ArrayList<>();
-    }
-
+    }   
     
-    public void addClient(Client client){
-        clients.add(client);
-    }
-    
-    public void removeClient(Client client){
-        clients.remove(client);
-    }
-    
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -118,11 +80,11 @@ public class Configuration implements Serializable {
     }
 
     public List<String> getHardwares() {
-        return hardware;
+        return hardwares;
     }
 
     public void setHardwares(List<String> hardwares) {
-        this.hardware = hardwares;
+        this.hardwares = hardwares;
     }
 
     public List<String> getServices() {
@@ -133,11 +95,11 @@ public class Configuration implements Serializable {
         this.services = services;
     }
 
-    public List<License> getLicences() {
+    public List<String> getLicences() {
         return licences;
     }
 
-    public void setLicences(List<License> licences) {
+    public void setLicences(List<String> licences) {
         this.licences = licences;
     }
 
@@ -157,12 +119,12 @@ public class Configuration implements Serializable {
         this.extensions = extensions;
     }
 
-    public String getContract_data() {
-        return contract_data;
+    public String getContract_info() {
+        return contract_info;
     }
 
-    public void setContract_data(String contract_data) {
-        this.contract_data = contract_data;
+    public void setContract_info(String contract_info) {
+        this.contract_info = contract_info;
     }
 
     public Status getStatus() {
@@ -172,13 +134,16 @@ public class Configuration implements Serializable {
     public void setStatus(Status status) {
         this.status = status;
     }
+    
+    
+    
 
-    public List<Client> getClients() {
-        return clients;
+    public Long getId() {
+        return id;
     }
 
-    public void setClients(List<Client> clients) {
-        this.clients = clients;
+    public void setId(Long id) {
+        this.id = id;
     }
  
     
