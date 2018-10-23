@@ -1,49 +1,49 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
-public class Module implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Entity
+public class Module implements Serializable { 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
+    private String name;
+    @ManyToMany(mappedBy = "modules")
+    private List<Configuration> configurations;
 
-    public Long getId() {
+    public Module() {
+        this.configurations=new LinkedList<>();
+    }
+    
+    
+    
+    public Module(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+        this.configurations=new LinkedList<>();
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public String getName() {
+        return name;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Module)) {
-            return false;
-        }
-        Module other = (Module) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public void setName(String name) {
+        this.name = name;
     }
-
-    @Override
-    public String toString() {
-        return "entity.Module[ id=" + id + " ]";
-    }
+    
     
 }

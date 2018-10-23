@@ -25,15 +25,16 @@
                             <li class="nav-item active">
                                 <h:link class="nav-link" value="Home" outcome="user_overview"/>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Configurations</a>
-                            </li>
+                           <c:if test="#{softwareManager.currentUserAdmin eq true}">
+                                <li class="nav-item">
+                                    <h:link class="nav-link" outcome="admin_configuration_manager" value="Configurations" />
+                                </li>
+                            </c:if>
                             <c:if test="#{softwareManager.currentUserAdmin eq true}">
                                 <li class="nav-item">
                                     <h:link class="nav-link" outcome="admin_user_manager" value="Users" />
                                 </li>
                             </c:if>
-
                         </ul>
                         <ul class="navbar-nav float-right">
                             <li class="nav-item dropdown">

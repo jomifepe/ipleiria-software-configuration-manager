@@ -17,14 +17,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "CONFIGURATION")
+@NamedQueries({
+    @NamedQuery(name = "getAllConfigurations", query = "SELECT c from Configuration c")
+})
 public class Configuration implements Serializable {
 private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Id private Long id;
+   
+    @Id private int id;
     
     @NotNull private String description;
     
@@ -32,16 +40,25 @@ private static final long serialVersionUID = 1L;
     @JoinColumn(name="SOFTWARE_ID")
     @NotNull private Software software;
     
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name="CLIENT_ID")
+    private Client client;
+    
     @ManyToMany
-    @JoinTable(name = "CLIENTS_CONFIGURATIONS",
-        joinColumns = @JoinColumn(name = "CONFIGURATION_ID", referencedColumnName = "ID"),
-        inverseJoinColumns = @JoinColumn(name = "CLIENT_USERNAME", referencedColumnName = "USERNAME"))
-    private List<Client> clients;
-        
+    @JoinTable(name = "CONFIGURATIONS_MODULES",
+    joinColumns = @JoinColumn(name = "CONFIGURATION_CODE", referencedColumnName = "ID"),
+    inverseJoinColumns = @JoinColumn(name = "MODULE_CODE", referencedColumnName =
+    "id"))
     private List<Module> modules;
     private List<String> hardware;
     private List<String> services;
     private List<String> licences;
+    @ManyToMany
+    @JoinTable(name = "CONFIGURATIONS_PARAMETERS",
+    joinColumns = @JoinColumn(name = "CONFIGURATION_CODE", referencedColumnName = "ID"),
+    inverseJoinColumns = @JoinColumn(name = "PARAMENTER_CODE", referencedColumnName =
+    "id"))
     private List<Parameter> parameters;
     private List<String> extensions;
     
@@ -49,7 +66,6 @@ private static final long serialVersionUID = 1L;
     private Status status;
 
     public Configuration() {
-        this.clients = new ArrayList<>();
         this.modules = new ArrayList<>();
         this.hardware = new ArrayList<>();
         this.services = new ArrayList<>();
@@ -58,10 +74,11 @@ private static final long serialVersionUID = 1L;
         this.extensions = new ArrayList<>();
     }
 
-    public Configuration(String description, Software software, String contractInfo, Status status) {
+    public Configuration(int id,String description, Software software, Client client, String contractInfo, Status status) {
+        this.id=id;
         this.description = description;
         this.software = software;
-        this.clients = new ArrayList<>();
+        this.client = client;
         this.modules = new ArrayList<>();
         this.hardware = new ArrayList<>();
         this.services = new ArrayList<>();
@@ -72,12 +89,12 @@ private static final long serialVersionUID = 1L;
         this.status = status;
     }
 
-    public List<Client> getClients() {
-        return clients;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClients(List<Client> clients) {
-        this.clients = clients;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public List<String> getHardware() {
@@ -94,14 +111,6 @@ private static final long serialVersionUID = 1L;
 
     public void setContractInfo(String contractInfo) {
         this.contractInfo = contractInfo;
-    }
-    
-    public void addClient(Client client){
-        clients.add(client);
-    }
-    
-    public void removeClient(Client client){
-        clients.remove(client);
     }
     
     public String getDescription() {
@@ -184,11 +193,35 @@ private static final long serialVersionUID = 1L;
         this.status = status;
     }
     
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
+    }
+    
+    public void addModule(Module module){
+        this.modules.add(module);
+    }
+    
+    public void addHardware(String hardware){
+        this.hardware.add(hardware);
+    }
+    
+    public void addService(String service){
+        this.services.add(service);
+    }
+     
+    public void addLicense(String license){
+        this.licences.add(license);
+    }
+    
+    public void addParameter(Parameter parameter){
+        this.parameters.add(parameter);
+    }
+    
+     public void addExtension(String extension){
+        this.extensions.add(extension);
     }
 }

@@ -7,8 +7,10 @@ package web;
 
 import ejb.AdministratorBean;
 import ejb.ClientBean;
+import ejb.ConfigurationBean;
 import entity.Administrator;
 import entity.Client;
+import entity.Configuration;
 import entity.User;
 import java.io.Serializable;
 import java.util.List;
@@ -32,8 +34,12 @@ public class SoftwareManager implements Serializable {
     
     private User currentUser;
 
+    
+    private Configuration currentConfiguration;
+    
     @EJB private ClientBean clientBean;
     @EJB private AdministratorBean administratorBean;
+    @EJB private ConfigurationBean configurationBean;
 
     public String getUserPassword() {
             return userPassword;
@@ -107,4 +113,22 @@ public class SoftwareManager implements Serializable {
             return null;
         }
     }
+    
+    public List<Configuration> getAllConfigurations(){
+        try {
+            return configurationBean.getAll();
+        } catch (Exception e) {
+            logger.warning("Problem fetching all administrators in method getAllAdministrators");
+            return null;
+        }
+    }
+
+    public Configuration getCurrentConfiguration() {
+        return currentConfiguration;
+    }
+
+    public void setCurrentConfiguration(Configuration currentConfiguration) {
+        this.currentConfiguration = currentConfiguration;
+    } 
+    
 }
