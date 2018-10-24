@@ -35,16 +35,14 @@ private static final long serialVersionUID = 1L;
     @Id private int id;
     
     @NotNull private String description;
-    
     @ManyToOne
     @JoinColumn(name="SOFTWARE_ID")
-    @NotNull private Software software;
+    @NotNull 
+    private Software software;
     
-    @NotNull
     @ManyToOne
     @JoinColumn(name="CLIENT_ID")
     private Client client;
-    
     @ManyToMany
     @JoinTable(name = "CONFIGURATIONS_MODULES",
     joinColumns = @JoinColumn(name = "CONFIGURATION_CODE", referencedColumnName = "ID"),
@@ -52,7 +50,6 @@ private static final long serialVersionUID = 1L;
     "id"))
     private List<Module> modules;
     private List<String> hardware;
-    private List<String> services;
     private List<String> licences;
     @ManyToMany
     @JoinTable(name = "CONFIGURATIONS_PARAMETERS",
@@ -61,27 +58,23 @@ private static final long serialVersionUID = 1L;
     "id"))
     private List<Parameter> parameters;
     private List<String> extensions;
-    
     @NotNull private String contractInfo;
     private Status status;
 
     public Configuration() {
         this.modules = new ArrayList<>();
         this.hardware = new ArrayList<>();
-        this.services = new ArrayList<>();
         this.licences = new ArrayList<>();
         this.parameters = new ArrayList<>();
         this.extensions = new ArrayList<>();
     }
 
-    public Configuration(int id,String description, Software software, Client client, String contractInfo, Status status) {
+    public Configuration(int id,String description, Software software, String contractInfo, Status status) {
         this.id=id;
         this.description = description;
         this.software = software;
-        this.client = client;
         this.modules = new ArrayList<>();
         this.hardware = new ArrayList<>();
-        this.services = new ArrayList<>();
         this.licences = new ArrayList<>();
         this.parameters = new ArrayList<>();
         this.extensions = new ArrayList<>();
@@ -145,13 +138,7 @@ private static final long serialVersionUID = 1L;
         this.hardware = hardwares;
     }
 
-    public List<String> getServices() {
-        return services;
-    }
-
-    public void setServices(List<String> services) {
-        this.services = services;
-    }
+   
 
     public List<String> getLicences() {
         return licences;
@@ -208,11 +195,6 @@ private static final long serialVersionUID = 1L;
     public void addHardware(String hardware){
         this.hardware.add(hardware);
     }
-    
-    public void addService(String service){
-        this.services.add(service);
-    }
-     
     public void addLicense(String license){
         this.licences.add(license);
     }

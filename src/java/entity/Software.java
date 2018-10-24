@@ -76,9 +76,5 @@ public class Software implements Serializable {
     public void setConfigurations(List<Configuration> configurations) {
         this.configurations = configurations;
     }
-
-    
-    
-    
     
 }

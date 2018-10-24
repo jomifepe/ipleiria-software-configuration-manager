@@ -43,18 +43,17 @@ public class TestBean {
         
         parameterBean.create(1,"loginAttemps","10");
         
-        configurationBean.create(1,"Configuração Office 365 do cliente Valentim",1,"valentim","Contrato de 1 ano", Status.ACTIVE);
+        configurationBean.create(1,"Configuração Office 365 do cliente Valentim",1,"Contrato de 1 ano", Status.ACTIVE);
         configurationBean.addModule(1,1);
         configurationBean.addHardware(1,"CPU: Intel core 2 duo");
         configurationBean.addHardware(1,"RAM: 4 GB ddr3");
         configurationBean.addHardware(1,"MB: Gigabyte");
-        configurationBean.addService(1,"Extensão de garantia");
         configurationBean.addLicense(1,"940-664-6353");
         configurationBean.addParameter(1,1);
         configurationBean.addExtension(1,"plugins para google docs");
         
-        configurationBean.create(2,"Configuração NetBeans do cliente Aron",2,"aron","Contrato de 3 mese", Status.INACTIVE);
-        configurationBean.create(3,"Configuração Pycharm da cliente Maria",3,"maria","Contrato de 6 mese", Status.SUSPENDED);
+        configurationBean.create(2,"Configuração NetBeans do cliente Aron",2,"Contrato de 3 mese", Status.INACTIVE);
+        configurationBean.create(3,"Configuração Pycharm da cliente Maria",3,"Contrato de 6 mese", Status.SUSPENDED);
             
     }   
 }

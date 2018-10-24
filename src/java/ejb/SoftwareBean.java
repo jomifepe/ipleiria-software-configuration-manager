@@ -22,6 +22,22 @@ public class SoftwareBean {
         }
     }
     
+   public void update(int id, String name, String baseVersion){
+       try{
+           Software software = em.find(Software.class, id);
+           if(software==null){
+               return ;
+            }
+            software.setName(name);
+            software.setBaseVersion(baseVersion);
+            
+            em.merge(software);
+            
+        }catch(Exception e){
+            throw new EJBException("Problem editing Software (DB persist) -> " + e.getMessage());
+        }
+   }
+   
     public void remove(String username){
         try{
             Software software = em.find(Software.class, username);
@@ -45,20 +61,6 @@ public class SoftwareBean {
     }
     
     
-    public void update(int id, String name, String baseVersion){
-        try{
-            Software software = (Software) em.find(Software.class, id);
-            if(software == null){
-                return;
-            }   
-            
-            software.setId(id);
-            software.setName(name);
-            software.setBaseVersion(baseVersion);  
-            em.merge(software);     
-        }catch(Exception e){
-            throw new EJBException("Problem updating Software DB -> " + e.getMessage());
-        }
-    }
+    
     
 }

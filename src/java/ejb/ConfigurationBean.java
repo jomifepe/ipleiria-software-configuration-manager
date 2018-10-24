@@ -24,18 +24,18 @@ public class ConfigurationBean {
     }
     
     
-    public void create(int id,String description, int software_id, String client_username, String contractInfo, Status status){
+    public void create(int id,String description, int software_id, String contractInfo, Status status){
         try{
             Software software=em.find(Software.class, software_id);
             if(software==null){
                 return ;
             }
-            Client client=em.find(Client.class, client_username);
-            if(client==null){
-                return ;
-            }
-            Configuration configuration = new Configuration(id,description,software,client,contractInfo, status);
+            
+            Configuration configuration = new Configuration(id,description,software,contractInfo, status);
+            
+            software.addConfiguration(configuration);
             em.persist(configuration);
+            em.merge(software);
         }catch(Exception e){
             throw new EJBException(e.getMessage());
         }
@@ -76,20 +76,6 @@ public class ConfigurationBean {
                 return;
             }            
             configuration.addHardware(hardware);
-            
-            em.persist(configuration);
-        }catch(Exception e){
-            throw new EJBException(e.getMessage());
-        }
-    }
-    
-    public void addService(int id_config, String service){
-        try{
-            Configuration configuration = em.find(Configuration.class, id_config);
-            if(configuration==null){
-                return;
-            }            
-            configuration.addService(service);
             
             em.persist(configuration);
         }catch(Exception e){

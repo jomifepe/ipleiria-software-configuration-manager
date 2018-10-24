@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>SCM - Sign in</title>
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/animate.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/fontawesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    </h:head>
+    <h:body>
+            <section class="section-content mt-3 mb-5 animated fadeIn">
+                <div class="container">
+                    <div class="row">
+                        <div class="col col-md-12">
+                            <h:form>
+                                <div class="form-group row">
+                                    <h:outputLabel for="id" value="Id:" class="col-sm-2 col-form-label" />
+                                    <div class="col-sm-10">
+                                        <h:inputText
+                                            id="id"
+                                            value="#{softwareManager.newSoftwareId}"  class="form-control" />
+                                        <h:message for="id" errorStyle="color:red" />
+                                    </div>
+                                </div>
+                               <div class="form-group row">
+                                    <h:outputLabel for="name" value="Name:" class="col-sm-2 col-form-label" />
+                                    <div class="col-sm-10">
+                                        <h:inputText
+                                            id="name"
+                                            value="#{softwareManager.newSoftwareName}"  class="form-control" />
+                                        <h:message for="name" errorStyle="color:red" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <h:outputLabel for="baseVersion" value="Version Base:" class="col-sm-2 col-form-label"  />
+                                    <div class="col-sm-10">
+                                        <h:inputText
+                                            id="baseVersion"
+                                            value="#{softwareManager.newSoftwareBaseVersion}"  class="form-control"/>
+                                        <h:message for="versionBase" errorStyle="color:red" />  
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <h:commandButton
+                                        id="submit"
+                                        value="Create"
+                                        action="#{softwareManager.createSoftware()}" class="btn btn-success btn-block btn-lg" />
+                                    <h:message for="submit" errorStyle="color:red" />
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    </h:body>
+</html>
+

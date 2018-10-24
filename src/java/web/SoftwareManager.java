@@ -8,9 +8,11 @@ package web;
 import ejb.AdministratorBean;
 import ejb.ClientBean;
 import ejb.ConfigurationBean;
+import ejb.SoftwareBean;
 import entity.Administrator;
 import entity.Client;
 import entity.Configuration;
+import entity.Software;
 import entity.User;
 import java.io.Serializable;
 import java.util.List;
@@ -34,13 +36,55 @@ public class SoftwareManager implements Serializable {
     
     private User currentUser;
 
-    
     private Configuration currentConfiguration;
+    
+    private Software currentSoftware;
+    private String newSoftwareId;
+    private String newSoftwareName;
+    private String newSoftwareBaseVersion;
     
     @EJB private ClientBean clientBean;
     @EJB private AdministratorBean administratorBean;
     @EJB private ConfigurationBean configurationBean;
+    @EJB private SoftwareBean softwareBean;
 
+    public String getNewSoftwareId() {
+        return newSoftwareId;
+    }
+
+    public void setNewSoftwareId(String newSoftwareId) {
+        this.newSoftwareId = newSoftwareId;
+    }
+
+    
+    
+    public String getNewSoftwareName() {
+        return newSoftwareName;
+    }
+
+    public void setNewSoftwareName(String newSoftwareName) {
+        this.newSoftwareName = newSoftwareName;
+    }
+
+    public String getNewSoftwareBaseVersion() {
+        return newSoftwareBaseVersion;
+    }
+
+    public void setNewSoftwareBaseVersion(String newSoftwareBaseVersion) {
+        this.newSoftwareBaseVersion = newSoftwareBaseVersion;
+    }
+
+    
+    
+    
+    public Software getCurrentSoftware() {
+        return currentSoftware;
+    }
+
+    public void setCurrentSoftware(Software currentSoftware) {
+        this.currentSoftware = currentSoftware;
+    }
+    
     public String getUserPassword() {
             return userPassword;
     }
@@ -104,6 +148,15 @@ public class SoftwareManager implements Serializable {
             return null;
         }
     }
+     public List<Software> getAllSoftwares() {
+        try {
+            return softwareBean.getAll();
+        } catch (Exception e) {
+            logger.warning("Problem fetching all administrators in method getAllAdministrators");
+            return null;
+        }
+    }
+    
     
     public List<Administrator> getAllAdministrators() {
         try {
@@ -131,4 +184,37 @@ public class SoftwareManager implements Serializable {
         this.currentConfiguration = currentConfiguration;
     } 
     
+    
+    public String createSoftware(){
+        try{
+            int newId=Integer.parseInt(newSoftwareId);
+            softwareBean.create(newId,newSoftwareName, 
+                    newSoftwareBaseVersion);            
+            clearNewSoftware();
+           
+        } catch (Exception e) {
+            logger.warning("Problem creating software in method createSoftware.");
+            return "admin_products_create?face-redirect=true";
+        }
+         return "admin_user_manager?faces-redirect=true";
+    }
+   
+    public void clearNewSoftware(){
+        newSoftwareId=null;
+        newSoftwareName=null;
+        newSoftwareBaseVersion=null;
+    }
+    
+    
+    public String updateSoftware(){
+        try{
+            softwareBean.update(currentSoftware.getId(),
+                    currentSoftware.getName(),
+                    currentSoftware.getBaseVersion());
+        }catch(Exception e){
+            logger.warning("Problem updating software in method updateSoftware");
+            return "admin_products_update";
+        }
+        return "user_overview?face-redirect=true";
+    }
 }
