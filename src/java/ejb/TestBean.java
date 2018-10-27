@@ -43,7 +43,7 @@ public class TestBean {
         
         parameterBean.create(1,"loginAttemps","10");
         
-        configurationBean.create(1,"Configuração Office 365 do cliente Valentim",1,"Contrato de 1 ano", Status.ACTIVE);
+        configurationBean.create(1,"Configuração Office 365",1);
         configurationBean.addModule(1,1);
         configurationBean.addHardware(1,"CPU: Intel core 2 duo");
         configurationBean.addHardware(1,"RAM: 4 GB ddr3");
@@ -52,8 +52,8 @@ public class TestBean {
         configurationBean.addParameter(1,1);
         configurationBean.addExtension(1,"plugins para google docs");
         
-        configurationBean.create(2,"Configuração NetBeans do cliente Aron",2,"Contrato de 3 mese", Status.INACTIVE);
-        configurationBean.create(3,"Configuração Pycharm da cliente Maria",3,"Contrato de 6 mese", Status.SUSPENDED);
+        configurationBean.create(2,"Configuração NetBeans",2);
+        configurationBean.create(3,"Configuração Pycharm",3);
             
     }   
 }

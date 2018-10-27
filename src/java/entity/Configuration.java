@@ -29,9 +29,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "getAllConfigurations", query = "SELECT c from Configuration c")
 })
 public class Configuration implements Serializable {
-private static final long serialVersionUID = 1L;
-
-   
+private static final long serialVersionUID = 1L;   
     @Id private int id;
     
     @NotNull private String description;
@@ -40,9 +38,12 @@ private static final long serialVersionUID = 1L;
     @NotNull 
     private Software software;
     
-    @ManyToOne
-    @JoinColumn(name="CLIENT_ID")
-    private Client client;
+    @ManyToMany
+    @JoinTable(name = "CONFIGURATIONS_CLIENTS",
+    joinColumns = @JoinColumn(name = "CONFIGURATION_CODE", referencedColumnName = "ID"),
+    inverseJoinColumns = @JoinColumn(name = "CLIENT_CODE", referencedColumnName =
+    "id"))
+    private List<Client> clients;
     @ManyToMany
     @JoinTable(name = "CONFIGURATIONS_MODULES",
     joinColumns = @JoinColumn(name = "CONFIGURATION_CODE", referencedColumnName = "ID"),
@@ -58,7 +59,7 @@ private static final long serialVersionUID = 1L;
     "id"))
     private List<Parameter> parameters;
     private List<String> extensions;
-    @NotNull private String contractInfo;
+    private String contractInfo;
     private Status status;
 
     public Configuration() {
@@ -67,9 +68,12 @@ private static final long serialVersionUID = 1L;
         this.licences = new ArrayList<>();
         this.parameters = new ArrayList<>();
         this.extensions = new ArrayList<>();
+        this.clients=new ArrayList<>();
     }
-
-    public Configuration(int id,String description, Software software, String contractInfo, Status status) {
+    
+    
+    
+    public Configuration(int id,String description, Software software) {
         this.id=id;
         this.description = description;
         this.software = software;
@@ -78,18 +82,10 @@ private static final long serialVersionUID = 1L;
         this.licences = new ArrayList<>();
         this.parameters = new ArrayList<>();
         this.extensions = new ArrayList<>();
-        this.contractInfo = contractInfo;
-        this.status = status;
+        this.clients=new ArrayList<>();
     }
 
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
+   
     public List<String> getHardware() {
         return hardware;
     }
@@ -206,4 +202,12 @@ private static final long serialVersionUID = 1L;
      public void addExtension(String extension){
         this.extensions.add(extension);
     }
+     
+     public void addClient(Client client){
+         this.clients.add(client);
+     }
+     
+     public void removeClient(Client client){
+         this.clients.remove(client);
+     }
 }

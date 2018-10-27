@@ -1,7 +1,9 @@
 package ejb;
 
+import dtos.ClientDTO;
 import entity.Client;
 import entity.User;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -36,10 +38,10 @@ public class ClientBean {
     }
     
     
-    public List<Client> getAll(){
+    public List<ClientDTO> getAll(){
         try{
             List<Client> clients = em.createNamedQuery("getAllClients").getResultList(); 
-            return clients;
+            return clientsToDTOs(clients);
         }catch(Exception e){
             throw new EJBException(e.getMessage());
         }
@@ -62,19 +64,35 @@ public class ClientBean {
         }
     }
     
-    public Client isValid(String username, String password) {
+    public ClientDTO isValid(String username, String password) {
         try {
             Client client = em.find(Client.class, username);
             if (client == null || !client.getPassword().equals(password)) {
                 return null;
             }
-            
-            return client;
+            return clientToDTO(client);
         } catch (Exception e) {
             throw new EJBException("Problem validating Client -> " + e.getMessage());
         }
     }
     
+    
+    ClientDTO clientToDTO(Client client){
+        return new ClientDTO(client.getUsername(),
+                             client.getPassword(), 
+                             client.getName(),
+                             client.getEmail(),
+                             client.getAddress(),
+                             client.getContact());
+    }
+    
+    List<ClientDTO> clientsToDTOs(List<Client> clients){
+        List<ClientDTO> dtos=new ArrayList<>();
+        for(Client s: clients){
+            dtos.add(clientToDTO(s));
+        }
+        return dtos;
+    }
     
 }
 

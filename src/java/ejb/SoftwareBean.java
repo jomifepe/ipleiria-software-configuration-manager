@@ -1,6 +1,8 @@
 package ejb;
 
+import dtos.SoftwareDTO;
 import entity.Software;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -51,13 +53,27 @@ public class SoftwareBean {
     }
     
     
-    public List<Software> getAll(){
+    public List<SoftwareDTO> getAll(){
         try{
             List<Software> softwares = em.createNamedQuery("getAllSoftwares").getResultList(); 
-            return softwares;
+            return softwaresToDTOs(softwares);
         }catch(Exception e){
             throw new EJBException(e.getMessage());
         }
+    }
+    
+    SoftwareDTO softwareToDTO(Software software){
+        return new SoftwareDTO(software.getId(),
+                                    software.getName(), 
+                                    software.getBaseVersion());
+    }
+    
+    List<SoftwareDTO> softwaresToDTOs(List<Software> softwares){
+        List<SoftwareDTO> dtos=new ArrayList<>();
+        for(Software s: softwares){
+            dtos.add(softwareToDTO(s));
+        }
+        return dtos;
     }
     
     

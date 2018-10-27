@@ -1,11 +1,15 @@
 package ejb;
 
+import dtos.ClientDTO;
+import dtos.ConfigurationDTO;
+import dtos.SoftwareDTO;
 import entity.Client;
 import entity.Configuration;
 import entity.Module;
 import entity.Parameter;
 import entity.Software;
 import entity.Status;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -23,15 +27,14 @@ public class ConfigurationBean {
     public ConfigurationBean() {
     }
     
-    
-    public void create(int id,String description, int software_id, String contractInfo, Status status){
+    public void create(int id,String description, int software_id){
         try{
             Software software=em.find(Software.class, software_id);
             if(software==null){
                 return ;
             }
             
-            Configuration configuration = new Configuration(id,description,software,contractInfo, status);
+            Configuration configuration = new Configuration(id,description,software);
             
             software.addConfiguration(configuration);
             em.persist(configuration);
@@ -41,10 +44,10 @@ public class ConfigurationBean {
         }
     }
     
-    public List<Configuration> getAll(){
+    public List<ConfigurationDTO> getAll(){
         try{
-            List<Configuration> clients = em.createNamedQuery("getAllConfigurations").getResultList(); 
-            return clients;
+            List<Configuration> configurations = em.createNamedQuery("getAllConfigurations").getResultList(); 
+            return configurationsToDTOs(configurations);
         }catch(Exception e){
             throw new EJBException(e.getMessage());
         }
@@ -151,4 +154,35 @@ public class ConfigurationBean {
             throw new EJBException(e.getMessage());
         }
     }
+
+     public List<ConfigurationDTO> getConfigurationsForSoftware(int id) {
+         try{
+            Software software = em.find(Software.class, id);
+            if(software==null){
+                return null;
+            } 
+            return configurationsToDTOs(software.getConfigurations());
+        }catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+     
+     
+     ConfigurationDTO ConfigurationToDTO(Configuration config){
+        return new ConfigurationDTO(config.getId(),
+                             config.getDescription(), 
+                             config.getSoftware().getId(),
+                             config.getSoftware().getName());
+    }
+    
+    List<ConfigurationDTO> configurationsToDTOs(List<Configuration> configurations){
+        List<ConfigurationDTO> dtos=new ArrayList<>();
+        for(Configuration s: configurations){
+            dtos.add(ConfigurationToDTO(s));
+        }
+        return dtos;
+    }
+
+    
+   
 }

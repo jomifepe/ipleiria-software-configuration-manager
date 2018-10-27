@@ -23,7 +23,7 @@ public class Client extends User implements Serializable {
     @NotNull private String address;
     @NotNull private String contact;
     
-    @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "clients")
     private List<Configuration> configurations;
 
     public Client() {

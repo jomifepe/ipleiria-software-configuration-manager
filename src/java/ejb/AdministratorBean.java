@@ -1,6 +1,8 @@
 package ejb;
 
+import dtos.AdministratorDTO;
 import entity.Administrator;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -35,10 +37,10 @@ public class AdministratorBean {
     }
     
     
-    public List<Administrator> getAll(){
+    public List<AdministratorDTO> getAll(){
         try{
             List<Administrator> administrators = em.createNamedQuery("getAllAdministrators").getResultList(); 
-            return administrators;
+            return administratorsToDTOs(administrators);
         }catch(Exception e){
             throw new EJBException(e.getMessage());
         }
@@ -61,16 +63,33 @@ public class AdministratorBean {
         }
     }
     
-    public Administrator validAdmin(String username, String password) {
+    public AdministratorDTO validAdmin(String username, String password) {
         try {
             Administrator administrator = em.find(Administrator.class, username);
             if (administrator == null || !administrator.getPassword().equals(password)) {
                 return null;
             }
             
-            return administrator;
+            return administratorToDTO(administrator);
         } catch (Exception e) {
             throw new EJBException("Problem validating Administrator -> " + e.getMessage());
         }
+    }
+    
+    
+     AdministratorDTO administratorToDTO(Administrator administrator){
+        return new AdministratorDTO(administrator.getUsername(),
+                                    administrator.getPassword(), 
+                                    administrator.getName(), 
+                                    administrator.getEmail(),
+                                    administrator.getRole());
+    }
+    
+    List<AdministratorDTO> administratorsToDTOs(List<Administrator> administrators){
+        List<AdministratorDTO> dtos=new ArrayList<>();
+        for(Administrator s: administrators){
+            dtos.add(administratorToDTO(s));
+        }
+        return dtos;
     }
 }

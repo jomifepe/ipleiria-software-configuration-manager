@@ -5,6 +5,11 @@
  */
 package web;
 
+import dtos.AdministratorDTO;
+import dtos.ClientDTO;
+import dtos.ConfigurationDTO;
+import dtos.SoftwareDTO;
+import dtos.UserDTO;
 import ejb.AdministratorBean;
 import ejb.ClientBean;
 import ejb.ConfigurationBean;
@@ -34,54 +39,38 @@ public class SoftwareManager implements Serializable {
     private String userUsername;
     private String userPassword;
     
-    private User currentUser;
-
-    private Configuration currentConfiguration;
+    private UserDTO currentUser;
+    private AdministratorDTO currentAdmin;
+    private ClientDTO currentClient;
     
-    private Software currentSoftware;
-    private String newSoftwareId;
-    private String newSoftwareName;
-    private String newSoftwareBaseVersion;
+    private ConfigurationDTO currentConfiguration;
+    
+    private SoftwareDTO currentSoftware, newSoftware;
     
     @EJB private ClientBean clientBean;
     @EJB private AdministratorBean administratorBean;
     @EJB private ConfigurationBean configurationBean;
     @EJB private SoftwareBean softwareBean;
 
-    public String getNewSoftwareId() {
-        return newSoftwareId;
+    public SoftwareManager() {
+        this.newSoftware =new SoftwareDTO();
     }
 
-    public void setNewSoftwareId(String newSoftwareId) {
-        this.newSoftwareId = newSoftwareId;
+    public SoftwareDTO getNewSoftware() {
+        return newSoftware;
     }
 
-    
-    
-    public String getNewSoftwareName() {
-        return newSoftwareName;
+    public void setNewSoftware(SoftwareDTO newSoftware) {
+        this.newSoftware = newSoftware;
     }
-
-    public void setNewSoftwareName(String newSoftwareName) {
-        this.newSoftwareName = newSoftwareName;
-    }
-
-    public String getNewSoftwareBaseVersion() {
-        return newSoftwareBaseVersion;
-    }
-
-    public void setNewSoftwareBaseVersion(String newSoftwareBaseVersion) {
-        this.newSoftwareBaseVersion = newSoftwareBaseVersion;
-    }
-
     
     
     
-    public Software getCurrentSoftware() {
+    public SoftwareDTO getCurrentSoftware() {
         return currentSoftware;
     }
 
-    public void setCurrentSoftware(Software currentSoftware) {
+    public void setCurrentSoftware(SoftwareDTO currentSoftware) {
         this.currentSoftware = currentSoftware;
     }
     
@@ -101,11 +90,11 @@ public class SoftwareManager implements Serializable {
             this.msg = msg;
     }
 
-    public User getCurrentUser() {
+    public UserDTO getCurrentUser() {
         return currentUser;
     }
 
-    public void setCurrentUser(User currentUser) {
+    public void setCurrentUser(UserDTO currentUser) {
         this.currentUser = currentUser;
     }
     
@@ -122,7 +111,7 @@ public class SoftwareManager implements Serializable {
     }
     
     public boolean isCurrentUserAdmin() {
-        return currentUser instanceof Administrator;
+        return currentUser instanceof AdministratorDTO;
     }
 
     public String validateUsernamePassword() {
@@ -140,7 +129,7 @@ public class SoftwareManager implements Serializable {
         return "user_overview";
     }
     
-    public List<Client> getAllClients() {
+    public List<ClientDTO> getAllClients() {
         try {
             return clientBean.getAll();
         } catch (Exception e) {
@@ -148,7 +137,7 @@ public class SoftwareManager implements Serializable {
             return null;
         }
     }
-     public List<Software> getAllSoftwares() {
+     public List<SoftwareDTO> getAllSoftwares() {
         try {
             return softwareBean.getAll();
         } catch (Exception e) {
@@ -158,7 +147,7 @@ public class SoftwareManager implements Serializable {
     }
     
     
-    public List<Administrator> getAllAdministrators() {
+    public List<AdministratorDTO> getAllAdministrators() {
         try {
             return administratorBean.getAll();
         } catch (Exception e) {
@@ -167,7 +156,7 @@ public class SoftwareManager implements Serializable {
         }
     }
     
-    public List<Configuration> getAllConfigurations(){
+    public List<ConfigurationDTO> getAllConfigurations(){
         try {
             return configurationBean.getAll();
         } catch (Exception e) {
@@ -176,21 +165,21 @@ public class SoftwareManager implements Serializable {
         }
     }
 
-    public Configuration getCurrentConfiguration() {
+    public ConfigurationDTO getCurrentConfiguration() {
         return currentConfiguration;
     }
 
-    public void setCurrentConfiguration(Configuration currentConfiguration) {
+    public void setCurrentConfiguration(ConfigurationDTO currentConfiguration) {
         this.currentConfiguration = currentConfiguration;
     } 
     
     
     public String createSoftware(){
         try{
-            int newId=Integer.parseInt(newSoftwareId);
-            softwareBean.create(newId,newSoftwareName, 
-                    newSoftwareBaseVersion);            
-            clearNewSoftware();
+            int newId=newSoftware.getId();
+            softwareBean.create(newId,newSoftware.getName(), 
+                    newSoftware.getBaseVersion());            
+            newSoftware.reset();
            
         } catch (Exception e) {
             logger.warning("Problem creating software in method createSoftware.");
@@ -199,11 +188,7 @@ public class SoftwareManager implements Serializable {
          return "admin_user_manager?faces-redirect=true";
     }
    
-    public void clearNewSoftware(){
-        newSoftwareId=null;
-        newSoftwareName=null;
-        newSoftwareBaseVersion=null;
-    }
+    
     
     
     public String updateSoftware(){
@@ -216,5 +201,14 @@ public class SoftwareManager implements Serializable {
             return "admin_products_update";
         }
         return "user_overview?face-redirect=true";
+    }
+    
+    public List<ConfigurationDTO> getCurrentSoftwareConfigurations(){
+        try {
+            return configurationBean.getConfigurationsForSoftware(currentSoftware.getId());
+        } catch (Exception e) {
+            logger.warning("Problem fetching all configurations in method getCurrentSoftwareConfigurations");
+            return null;
+        }
     }
 }
