@@ -16,21 +16,43 @@ public class ClientBean {
     @PersistenceContext
     EntityManager em;
     
-    public void create(String username, String password, String name, String email, String address, String contact){
-        try{
-           Client client = new Client(username, password, name, email, address, contact);      
-            em.persist(client); //Inserir na BD
-        }catch(Exception e){
+    public void create(String username, String password, String name, String email, String address, String contact) {
+        try {
+            Client client = new Client(username, password, name, email, address, contact);      
+            
+            em.persist(client);
+        } catch(Exception e){
             throw new EJBException("Problem creating Client (DB persist) -> " + e.getMessage());
         }
     }
     
-    public void remove(String username){
+    public void update(String username, String password, String name, String email, String address, String contact) {
         try{
-            Client client = em.find(Client.class, username);
-            if(client == null){
+            Client client = (Client) em.find(Client.class, username);
+            if (client == null) {
                 return;
             }
+            
+            client.setUsername(username);
+            client.setPassword(password);
+            client.setName(name);
+            client.setEmail(email);
+            client.setAddress(address);
+            client.setContact(contact);
+            
+            em.merge(client);     
+        }catch(Exception e){
+            throw new EJBException("Problem updating Client DB -> " + e.getMessage());
+        }
+    }
+    
+    public void remove(String username) {
+        try {
+            Client client = (Client) em.find(Client.class, username);
+            if (client == null) {
+                return;
+            }
+            
             em.remove(client);
         }catch(Exception e){
             throw new EJBException("Problem removing Client from DB -> " + e.getMessage());
@@ -38,29 +60,12 @@ public class ClientBean {
     }
     
     
-    public List<ClientDTO> getAll(){
-        try{
+    public List<ClientDTO> getAll() {
+        try {
             List<Client> clients = em.createNamedQuery("getAllClients").getResultList(); 
             return clientsToDTOs(clients);
-        }catch(Exception e){
+        } catch(Exception e) {
             throw new EJBException(e.getMessage());
-        }
-    }
-    
-    
-    public void update(String username, String password, String name, String email){
-        try{
-            Client client = (Client) em.find(Client.class, username);
-            if(client == null){
-                return;
-            }   
-            client.setUsername(username);
-            client.setPassword(password);
-            client.setName(name);
-            client.setEmail(email);
-            em.merge(client);     
-        }catch(Exception e){
-            throw new EJBException("Problem updating Client DB -> " + e.getMessage());
         }
     }
     
@@ -77,7 +82,7 @@ public class ClientBean {
     }
     
     
-    ClientDTO clientToDTO(Client client){
+    ClientDTO clientToDTO(Client client) {
         return new ClientDTO(client.getUsername(),
                              client.getPassword(), 
                              client.getName(),
@@ -86,11 +91,11 @@ public class ClientBean {
                              client.getContact());
     }
     
-    List<ClientDTO> clientsToDTOs(List<Client> clients){
-        List<ClientDTO> dtos=new ArrayList<>();
-        for(Client s: clients){
+    List<ClientDTO> clientsToDTOs(List<Client> clients) {
+        List<ClientDTO> dtos = new ArrayList<>();
+        clients.forEach((s) -> {
             dtos.add(clientToDTO(s));
-        }
+        });
         return dtos;
     }
     

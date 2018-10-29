@@ -19,7 +19,6 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "getAllClients", query = "SELECT c from Client c ORDER BY c.name")
 })
 public class Client extends User implements Serializable {
-    
     @NotNull private String address;
     @NotNull private String contact;
     

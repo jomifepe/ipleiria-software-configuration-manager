@@ -13,6 +13,18 @@
         <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
     </h:head>
     <h:body>
+        <c:if test="#{softwareManager.loggedUserAdmin eq false}">
+            <section class="section-content mt-5 animated fadeIn">
+                <div class="container">
+                    <h2>Insufficient permissions</h2>
+                </div>
+            </section>
+        </c:if>
+        <c:if test="#{softwareManager.loggedUserAdmin eq true}">
+            <ui:insert>
+                <ui:include src="section_navbar.xhtml" />
+            </ui:insert>
+            
             <section class="section-content mt-3 mb-5 animated fadeIn">
                 <div class="container">
                     <div class="row">
@@ -49,7 +61,7 @@
                                     <h:commandButton
                                         id="submit"
                                         value="Create"
-                                        action="#{softwareManager.createSoftware()}" class="btn btn-success btn-block btn-lg" />
+                                        action="#{softwareManager.createSoftware}" class="btn btn-success btn-block btn-lg" />
                                     <h:message for="submit" errorStyle="color:red" />
                                 </div>
                             </h:form>
@@ -57,6 +69,7 @@
                     </div>
                 </div>
             </section>
+        </c:if>
     </h:body>
 </html>
 

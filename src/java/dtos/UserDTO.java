@@ -45,6 +45,10 @@ public class UserDTO implements Serializable{
     public String getName() {
         return name;
     }
+    
+    public String getFirstName() {
+        return name.split(" ")[0];
+    }
 
     public void setName(String name) {
         this.name = name;

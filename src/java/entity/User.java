@@ -19,12 +19,13 @@ public class User implements Serializable {
     @Id protected String username;
     @NotNull protected String password;
     
-    @Pattern(regexp = "^[\\p{L}\\s]*$", message = " {invalid.name}")
+    @Pattern(regexp = "^[\\p{L}\\s]*$", 
+            message = " {invalid.name}")
     @NotNull protected String name;
     
     @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."+
     "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"+"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
-    message = "{invalid.email}")
+            message = "{invalid.email}")
     @NotNull protected String email;
     
     public User(){

@@ -25,8 +25,9 @@ public class TestBean {
     
     @PostConstruct
     public void populateDB() {
-        administratorBean.create("luis", "123", "Luís Jejum Flures", "flures@fax.pt", "pleb");
+        administratorBean.create("luis", "123", "Luís Jejum Flures", "flures@fax.pt", "merjador");
         administratorBean.create("ze", "123", "José Pereira", "ze@plebking.pt", "sudo");
+        administratorBean.create("ruben", "123", "Rúben Santos", "ruben@mail.pt", "pato");
         
         clientBean.create("valentim", "123", "Valentim Terra", "valentim@mail.pt", "Rua das ruas", "915548796");
         clientBean.create("aron", "123", "Aron Bado", "aron@mail.pt", "Travessa das travessas", "965984123");
