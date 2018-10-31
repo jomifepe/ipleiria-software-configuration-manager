@@ -25,17 +25,17 @@
                             <li class="nav-item active">
                                 <h:link class="nav-link" value="Home" outcome="user_overview"/>
                             </li>
-                            <c:if test="#{softwareManager.currentUserAdmin eq true}">
+                            <c:if test="#{softwareManager.loggedUserAdmin eq true}">
                                 <li class="nav-item">
                                     <h:link class="nav-link" outcome="admin_products_manager" value="Products" />
                                 </li>
                             </c:if>
-                           <c:if test="#{softwareManager.currentUserAdmin eq true}">
+                           <c:if test="#{softwareManager.loggedUserAdmin eq true}">
                                 <li class="nav-item">
                                     <h:link class="nav-link" outcome="admin_configuration_manager" value="Configurations" />
                                 </li>
                             </c:if>
-                            <c:if test="#{softwareManager.currentUserAdmin eq true}">
+                            <c:if test="#{softwareManager.loggedUserAdmin eq true}">
                                 <li class="nav-item">
                                     <h:link class="nav-link" outcome="admin_user_manager" value="Users" />
                                 </li>
@@ -44,7 +44,7 @@
                         <ul class="navbar-nav float-right">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    #{softwareManager.userFirstName}
+                                    #{softwareManager.loggedUserRole}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item" href="#">Sign out</a>
@@ -60,11 +60,8 @@
             <div class="container">
                 <div class="d-inline-block">
                     <h2>Welcome back, 
-                        <c:if test="#{softwareManager.currentUserAdmin eq true}">
-                            <span class="text-danger">#{softwareManager.currentUser.name}</span>
-                        </c:if>
-                        <c:if test="#{softwareManager.currentUserAdmin eq false}">
-                            <span class="text-success">#{softwareManager.currentUser.name}</span>
+                        <c:if test="#{softwareManager.loggedUserAdmin eq true}">
+                            <span class="text-danger">#{softwareManager.loggedUser.name}</span>
                         </c:if>
                     </h2>
                 </div>

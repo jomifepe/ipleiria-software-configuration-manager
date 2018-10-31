@@ -30,7 +30,8 @@ import javax.validation.constraints.NotNull;
 })
 public class Configuration implements Serializable {
 private static final long serialVersionUID = 1L;   
-    @Id private int id;
+    
+@Id private int id;
     
     @NotNull private String description;
     @ManyToOne
@@ -41,8 +42,7 @@ private static final long serialVersionUID = 1L;
     @ManyToMany
     @JoinTable(name = "CONFIGURATIONS_CLIENTS",
     joinColumns = @JoinColumn(name = "CONFIGURATION_CODE", referencedColumnName = "ID"),
-    inverseJoinColumns = @JoinColumn(name = "CLIENT_CODE", referencedColumnName =
-    "id"))
+    inverseJoinColumns = @JoinColumn(name = "CLIENT_CODE", referencedColumnName = "username"))
     private List<Client> clients;
     @ManyToMany
     @JoinTable(name = "CONFIGURATIONS_MODULES",

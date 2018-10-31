@@ -13,14 +13,14 @@
         <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
     </h:head>
     <h:body>
-        <c:if test="#{softwareManager.currentUserAdmin eq false}">
+        <c:if test="#{softwareManager.loggedUserAdmin eq false}">
             <section class="section-content mt-5 animated fadeIn">
                 <div class="container">
                     <h2>Insufficient permissions</h2>
                 </div>
             </section>
         </c:if>
-        <c:if test="#{softwareManager.currentUserAdmin eq true}">
+        <c:if test="#{softwareManager.loggedUserAdmin eq true}">
             <header class="section-header mt-3 animated fadeIn">
                 <div class="container">
                     <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded">
@@ -34,16 +34,16 @@
                                     <h:link class="nav-link" value="Home" outcome="user_overview"/>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Configurations</a>
+                                    <a class="nav-link" href="admin_products_manager.xhtml">Products</a>
                                 </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="#">Users</a>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="admin_configuration_manager.xhtml">Configurations</a>
                                 </li>
                             </ul>
                             <ul class="navbar-nav float-right">
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        #{softwareManager.userFirstName}
+                                        #{softwareManager.loggedUser.name}
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                         <a class="dropdown-item" href="#">Sign out</a>
@@ -97,12 +97,12 @@
                                         <f:facet name="header"> 
                                             <h:outputText value="Actions"/>
                                         </f:facet>
-                                        <h:commandLink class="btn btn-primary" action="#" title="View client details">
-                                            <f:setPropertyActionListener target="#{softwareManager.currentUser}" value="#{client}"/>
+                                        <h:commandLink class="btn btn-primary" action="admin_user_details?faces-redirect=true" title="View client details">
+                                            <f:setPropertyActionListener target="#{softwareManager.currentClient}" value="#{client}"/>
                                             <i class="fas fa-info-circle"></i>
                                         </h:commandLink>
                                         <h:commandLink class="btn btn-info ml-1" action="#" title="Edit client">
-                                            <f:setPropertyActionListener target="#{softwareManager.currentUser}" value="#{client}"/>
+                                            <f:setPropertyActionListener target="#{softwareManager.currentClient}" value="#{client}"/>
                                             <i class="fas fa-edit"></i>
                                         </h:commandLink>
                                         <h:commandLink class="btn btn-danger ml-1" actionListener="#{softwareManager.removeClient}" title="Remove client">
@@ -150,11 +150,11 @@
                                             <h:outputText value="Actions"/>
                                         </f:facet>
                                         <h:commandLink class="btn btn-primary" action="#" title="View administrator details">
-                                            <f:setPropertyActionListener target="#{softwareManager.currentUser}" value="#{administrator}"/>
+                                            <f:setPropertyActionListener target="#{softwareManager.currentAdmin}" value="#{administrator}"/>
                                             <i class="fas fa-info-circle"></i>
                                         </h:commandLink>
                                         <h:commandLink class="btn btn-info ml-1" action="#" title="Edit administrator">
-                                            <f:setPropertyActionListener target="#{softwareManager.currentUser}" value="#{administrator}"/>
+                                            <f:setPropertyActionListener target="#{softwareManager.currentAdmin}" value="#{administrator}"/>
                                             <i class="fas fa-edit"></i>
                                         </h:commandLink>
                                         <h:commandLink class="btn btn-danger ml-1" actionListener="#{softwareManager.removeAdministrator}" title="Remove administrator">

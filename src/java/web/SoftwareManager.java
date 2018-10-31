@@ -39,7 +39,7 @@ public class SoftwareManager implements Serializable {
     private String userUsername;
     private String userPassword;
     
-    private UserDTO currentUser;
+    private UserDTO loggedUser;
     private AdministratorDTO currentAdmin;
     private ClientDTO currentClient;
     
@@ -52,80 +52,30 @@ public class SoftwareManager implements Serializable {
     @EJB private ConfigurationBean configurationBean;
     @EJB private SoftwareBean softwareBean;
 
+    
     public SoftwareManager() {
-        this.newSoftware =new SoftwareDTO();
+        this.newSoftware = new SoftwareDTO();
+        this.loggedUser = new UserDTO();
+        this.currentAdmin = new AdministratorDTO();
+        this.currentClient = new ClientDTO();
     }
 
-    public SoftwareDTO getNewSoftware() {
-        return newSoftware;
-    }
-
-    public void setNewSoftware(SoftwareDTO newSoftware) {
-        this.newSoftware = newSoftware;
+    public List<ConfigurationDTO> currentClientConfigurations(){
+        return configurationBean.getClientConfigurations(currentClient.getUsername());
     }
     
     
-    
-    public SoftwareDTO getCurrentSoftware() {
-        return currentSoftware;
-    }
-
-    public void setCurrentSoftware(SoftwareDTO currentSoftware) {
-        this.currentSoftware = currentSoftware;
-    }
-    
-    public String getUserPassword() {
-            return userPassword;
-    }
-
-    public void setUserPassword(String pwd) {
-            this.userPassword = pwd;
-    }
-
-    public String getMsg() {
-            return msg;
-    }
-
-    public void setMsg(String msg) {
-            this.msg = msg;
-    }
-
-    public UserDTO getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(UserDTO currentUser) {
-        this.currentUser = currentUser;
-    }
-    
-    public String getUserUsername() {
-            return userUsername;
-    }
-
-    public void setUserUsername(String user) {
-            this.userUsername = user;
-    }
-    
-    public String getUserFirstName() {
-        return currentUser.getName().split(" ")[0];
-    }
-    
-    public boolean isCurrentUserAdmin() {
-        return currentUser instanceof AdministratorDTO;
-    }
-
     public String validateUsernamePassword() {
-        currentUser = null;
-   
-        currentUser = clientBean.isValid(userUsername, userPassword);
+        loggedUser = null;
+        
+        loggedUser = clientBean.isValid(userUsername, userPassword);
       
-        if(currentUser == null){ //É client?
-            currentUser = administratorBean.validAdmin(userUsername, userPassword);
-            if(currentUser == null){//É admin?
+        if(loggedUser == null){ //É client?
+            loggedUser = administratorBean.validAdmin(userUsername, userPassword);
+            if(loggedUser == null){//É admin?
                 return "login";
             }
-        }
-        
+        }    
         return "user_overview";
     }
     
@@ -210,5 +160,86 @@ public class SoftwareManager implements Serializable {
             logger.warning("Problem fetching all configurations in method getCurrentSoftwareConfigurations");
             return null;
         }
+    }
+    
+    
+        public SoftwareDTO getNewSoftware() {
+        return newSoftware;
+    }
+
+    public void setNewSoftware(SoftwareDTO newSoftware) {
+        this.newSoftware = newSoftware;
+    }
+    
+    public SoftwareDTO getCurrentSoftware() {
+        return currentSoftware;
+    }
+
+    public void setCurrentSoftware(SoftwareDTO currentSoftware) {
+        this.currentSoftware = currentSoftware;
+    }
+    
+    
+    public String getUserPassword() {
+            return userPassword;
+    }
+
+    public AdministratorDTO getCurrentAdmin() {
+        return currentAdmin;
+    }
+
+    public void setCurrentAdmin(AdministratorDTO currentAdmin) {
+        this.currentAdmin = currentAdmin;
+    }
+
+    public ClientDTO getCurrentClient() {
+        return currentClient;
+    }
+
+    public void setCurrentClient(ClientDTO currentClient) {
+        this.currentClient = currentClient;
+    }
+   
+    public void setUserPassword(String pwd) {
+            this.userPassword = pwd;
+    }
+
+    public String getMsg() {
+            return msg;
+    }
+
+    public void setMsg(String msg) {
+            this.msg = msg;
+    }
+
+    public UserDTO getLoggedUser() {
+        return loggedUser;
+    }
+
+    public void setLoggedUser(UserDTO loggedtUser) {
+        this.loggedUser = loggedUser;
+    }
+    
+    public String getUserUsername() {
+            return userUsername;
+    }
+
+    public void setUserUsername(String user) {
+            this.userUsername = user;
+    }
+    
+    public String getUserFirstName() {
+        return loggedUser.getName().split(" ")[0];
+    }
+    
+    public boolean isLoggedUserAdmin() {
+        return loggedUser instanceof AdministratorDTO;
+    }
+    
+    public String getLoggedUserRole(){
+        if(loggedUser instanceof AdministratorDTO){
+            return ((AdministratorDTO)loggedUser).getRole();
+        }
+        return null;
     }
 }

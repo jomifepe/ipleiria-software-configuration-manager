@@ -1,6 +1,5 @@
 package ejb;
 
-import dtos.ClientDTO;
 import dtos.ConfigurationDTO;
 import dtos.SoftwareDTO;
 import entity.Client;
@@ -8,13 +7,13 @@ import entity.Configuration;
 import entity.Module;
 import entity.Parameter;
 import entity.Software;
-import entity.Status;
+import entity.User;
+import entity.Administrator;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
-import javax.inject.Named;
-import javax.enterprise.context.Dependent;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -166,6 +165,20 @@ public class ConfigurationBean {
             throw new EJBException(e.getMessage());
         }
     }
+     
+     public List<ConfigurationDTO> getClientConfigurations(String username){
+         try{
+            Client client = em.find(Client.class, username);
+            if(client == null){
+                return null;
+            }
+             System.out.println(client.getName());
+            List<Configuration> configs = client.getConfigurations();
+            return configurationsToDTOs(configs);
+         }catch(Exception e){
+             throw new EJBException(e.getMessage());
+         }
+     }
      
      
      ConfigurationDTO ConfigurationToDTO(Configuration config){

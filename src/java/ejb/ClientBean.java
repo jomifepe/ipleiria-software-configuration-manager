@@ -2,7 +2,7 @@ package ejb;
 
 import dtos.ClientDTO;
 import entity.Client;
-import entity.User;
+import entity.Configuration;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
@@ -63,6 +63,24 @@ public class ClientBean {
             throw new EJBException("Problem updating Client DB -> " + e.getMessage());
         }
     }
+    
+    public void addConfiguration(String username, int configurationId){
+        try{
+            Client client = (Client) em.find(Client.class, username);
+            Configuration configuration = (Configuration) em.find(Configuration.class, configurationId);
+            if(client == null || configuration == null){
+                return;
+            }
+            client.addConfiguration(configuration);
+            configuration.addClient(client);
+            em.merge(client);    
+            em.merge(configuration);
+        }catch(Exception e){
+            throw new EJBException("Problem adding Client Configuration -> " + e.getMessage());
+        }
+    }
+    
+    
     
     public ClientDTO isValid(String username, String password) {
         try {

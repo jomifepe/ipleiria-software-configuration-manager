@@ -54,6 +54,9 @@ public class TestBean {
         
         configurationBean.create(2,"Configuração NetBeans",2);
         configurationBean.create(3,"Configuração Pycharm",3);
+        
+        clientBean.addConfiguration("aron", 1);
+        
             
     }   
 }

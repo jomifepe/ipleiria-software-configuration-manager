@@ -25,6 +25,8 @@ public class Client extends User implements Serializable {
     
     @ManyToMany(mappedBy = "clients")
     private List<Configuration> configurations;
+    
+    
 
     public Client() {
         configurations = new ArrayList<>();
