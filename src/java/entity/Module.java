@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -11,22 +12,20 @@ import javax.persistence.ManyToMany;
 
 @Entity
 public class Module implements Serializable { 
-    @Id
-    private Integer id;
+    @Id private int id;
     private String name;
+    
     @ManyToMany(mappedBy = "modules")
     private List<Configuration> configurations;
 
     public Module() {
-        this.configurations=new LinkedList<>();
+        this.configurations = new ArrayList<>();
     }
-    
-    
     
     public Module(Integer id, String name) {
         this.id = id;
         this.name = name;
-        this.configurations=new LinkedList<>();
+        this.configurations = new ArrayList<>();
     }
 
     public Integer getId() {

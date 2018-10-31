@@ -31,32 +31,32 @@ import javax.validation.constraints.NotNull;
 public class Configuration implements Serializable {
 private static final long serialVersionUID = 1L;   
     
-@Id private int id;
+    @Id private int id;
     
     @NotNull private String description;
+    
     @ManyToOne
     @JoinColumn(name="SOFTWARE_ID")
-    @NotNull 
-    private Software software;
+    @NotNull private Software software;
     
     @ManyToMany
-    @JoinTable(name = "CONFIGURATIONS_CLIENTS",
-    joinColumns = @JoinColumn(name = "CONFIGURATION_CODE", referencedColumnName = "ID"),
-    inverseJoinColumns = @JoinColumn(name = "CLIENT_CODE", referencedColumnName = "username"))
+    @JoinTable(name = "CONFIGURATION_CLIENT",
+            joinColumns = @JoinColumn(name = "CONFIGURATION_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "CLIENT_USERNAME", referencedColumnName = "USERNAME"))
     private List<Client> clients;
+    
     @ManyToMany
-    @JoinTable(name = "CONFIGURATIONS_MODULES",
-    joinColumns = @JoinColumn(name = "CONFIGURATION_CODE", referencedColumnName = "ID"),
-    inverseJoinColumns = @JoinColumn(name = "MODULE_CODE", referencedColumnName =
-    "id"))
+    @JoinTable(name = "CONFIGURATION_MODULE",
+            joinColumns = @JoinColumn(name = "CONFIGURATION_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID"))
     private List<Module> modules;
     private List<String> hardware;
     private List<String> licences;
+    
     @ManyToMany
-    @JoinTable(name = "CONFIGURATIONS_PARAMETERS",
-    joinColumns = @JoinColumn(name = "CONFIGURATION_CODE", referencedColumnName = "ID"),
-    inverseJoinColumns = @JoinColumn(name = "PARAMENTER_CODE", referencedColumnName =
-    "id"))
+    @JoinTable(name = "CONFIGURATION_PARAMETER",
+            joinColumns = @JoinColumn(name = "CONFIGURATION_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "PARAMENTER_ID", referencedColumnName = "ID"))
     private List<Parameter> parameters;
     private List<String> extensions;
     private String contractInfo;
@@ -68,13 +68,11 @@ private static final long serialVersionUID = 1L;
         this.licences = new ArrayList<>();
         this.parameters = new ArrayList<>();
         this.extensions = new ArrayList<>();
-        this.clients=new ArrayList<>();
+        this.clients = new ArrayList<>();
     }
     
-    
-    
     public Configuration(int id,String description, Software software) {
-        this.id=id;
+        this.id = id;
         this.description = description;
         this.software = software;
         this.modules = new ArrayList<>();
@@ -82,9 +80,8 @@ private static final long serialVersionUID = 1L;
         this.licences = new ArrayList<>();
         this.parameters = new ArrayList<>();
         this.extensions = new ArrayList<>();
-        this.clients=new ArrayList<>();
+        this.clients = new ArrayList<>();
     }
-
    
     public List<String> getHardware() {
         return hardware;
@@ -133,8 +130,6 @@ private static final long serialVersionUID = 1L;
     public void setHardwares(List<String> hardwares) {
         this.hardware = hardwares;
     }
-
-   
 
     public List<String> getLicences() {
         return licences;

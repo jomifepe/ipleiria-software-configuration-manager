@@ -26,6 +26,8 @@ import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.component.UIParameter;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 
 
@@ -40,11 +42,10 @@ public class SoftwareManager implements Serializable {
     private String userPassword;
     
     private UserDTO loggedUser;
-    private AdministratorDTO currentAdmin;
+
     private ClientDTO currentClient;
-    
+    private AdministratorDTO currentAdministrator;
     private ConfigurationDTO currentConfiguration;
-    
     private SoftwareDTO currentSoftware, newSoftware;
     
     @EJB private ClientBean clientBean;
@@ -54,16 +55,142 @@ public class SoftwareManager implements Serializable {
 
     
     public SoftwareManager() {
-        this.newSoftware = new SoftwareDTO();
-        this.loggedUser = new UserDTO();
-        this.currentAdmin = new AdministratorDTO();
+        this.currentAdministrator = new AdministratorDTO();
         this.currentClient = new ClientDTO();
+        this.loggedUser = new UserDTO();
+        this.currentConfiguration = new ConfigurationDTO();
+        this.newSoftware = new SoftwareDTO();
     }
+    
+    public String createClient() {
+        try {
+            clientBean.create(
+                    currentClient.getUsername(), 
+                    currentClient.getPassword(), 
+                    currentClient.getName(), 
+                    currentClient.getEmail(), 
+                    currentClient.getAddress(), 
+                    currentClient.getContact());
+            currentClient.reset();
+        } catch (Exception e) {
+            logger.warning("Problem creating client in method createClient.");
+            return "admin_client_create?faces-redirect=true";
+        }
+        
+        return "admin_user_manager?faces-redirect=true";
+    }
+    
+    public String createAdministrator() {
+        try {
+            administratorBean.create(
+                    currentAdministrator.getUsername(), 
+                    currentAdministrator.getPassword(), 
+                    currentAdministrator.getName(), 
+                    currentAdministrator.getEmail(), 
+                    currentAdministrator.getRole());
+            currentAdministrator.reset();
+        } catch (Exception e) {
+            logger.warning("Problem creating administrator in method createAdministrator.");
+            return "admin_administrator_create?faces-redirect=true";
+        }
+        
+        return "admin_user_manager?faces-redirect=true";
+    }
+    
+    public String createSoftware() {
+        try{
+            softwareBean.create(
+                    newSoftware.getId(), 
+                    newSoftware.getName(), 
+                    newSoftware.getBaseVersion());            
+            newSoftware.reset();
+        } catch (Exception e) {
+            logger.warning("Problem creating software in method createSoftware.");
+            return "admin_software_create?face-redirect=true";
+        }
+         return "admin_software_manager?faces-redirect=true";
+    }
+    
+    public String updateClient() {
+        try {
+            clientBean.update(
+                    currentClient.getUsername(), 
+                    currentClient.getPassword(),
+                    currentClient.getName(),
+                    currentClient.getEmail(),
+                    currentClient.getAddress(),
+                    currentClient.getContact());
+            currentClient.reset();
+        } catch (Exception e) {
+            logger.warning("Problem updating client in method updateClient");
+            return "admin_client_update";
+        }
+        
+        return "admin_user_manager?faces-redirect=true";
+    }
+    
+    public String updateAdministrator() {
+        try {
+            administratorBean.update(
+                    currentAdministrator.getUsername(), 
+                    currentAdministrator.getPassword(),
+                    currentAdministrator.getName(),
+                    currentAdministrator.getEmail(),
+                    currentAdministrator.getRole());
+            currentAdministrator.reset();
+        } catch (Exception e) {
+            logger.warning("Problem updating administrator in method updateAdministrator");
+            return "admin_administrator_update";
+        }
+        
+        return "admin_user_manager?faces-redirect=true";
+    }
+    
+    public String updateSoftware() {
+        try{
+            softwareBean.update(
+                    currentSoftware.getId(),
+                    currentSoftware.getName(),
+                    currentSoftware.getBaseVersion());
+        } catch(Exception e) {
+            logger.warning("Problem updating software in method updateSoftware");
+            return "admin_software_update";
+        }
+        return "admin_software_manager?face-redirect=true";
+    }
+    
+    public String deleteClient(ActionEvent event) {
+        try {
+            UIParameter param = (UIParameter) event.getComponent().findComponent("deleteClientUsername");
+            String username = param.getValue().toString();
+            
+            clientBean.remove(username);
+        } catch (Exception e) {
+            logger.warning("Problem deleting client in method deleteClient");
+        }
+        
+        return "admin_user_manager?faces-redirect=true";
+    }
+    
+    public String deleteAdministrator(ActionEvent event) {
+        try {
+            UIParameter param = (UIParameter) event.getComponent().findComponent("deleteAdministratorUsername");
+            String username = param.getValue().toString();
+            
+            administratorBean.remove(username);
+        } catch (Exception e) {
+            logger.warning("Problem deleting administrator in method deleteAdministrator");
+        }
+        
+        return "admin_user_manager?faces-redirect=true";
+    }
+    
 
     public List<ConfigurationDTO> currentClientConfigurations(){
         return configurationBean.getClientConfigurations(currentClient.getUsername());
     }
     
+
     
     public String validateUsernamePassword() {
         loggedUser = null;
@@ -75,8 +202,46 @@ public class SoftwareManager implements Serializable {
             if(loggedUser == null){//É admin?
                 return "login";
             }
-        }    
+        }
         return "user_overview";
+    }
+                
+    public SoftwareDTO getCurrentSoftware() {
+        return currentSoftware;
+    }
+
+    public void setCurrentSoftware(SoftwareDTO currentSoftware) {
+        this.currentSoftware = currentSoftware;
+    }
+
+    public UserDTO getLoggedUser() {
+        return loggedUser;
+    }
+
+    public void setLoggedUser(UserDTO loggedUser) {
+        this.loggedUser = loggedUser;
+    }
+
+    public ClientDTO getCurrentClient() {
+        return currentClient;
+    }
+
+    public void setCurrentClient(ClientDTO currentClient) {
+        this.currentClient = currentClient;
+    }
+
+    public AdministratorDTO getCurrentAdministrator() {
+        return currentAdministrator;
+    }
+
+    public void setCurrentAdministrator(AdministratorDTO currentAdministrator) {
+        this.currentAdministrator = currentAdministrator;
+    }
+    
+   
+    public String logOutUser() {
+        loggedUser.reset();
+        return "login?faces-redirect=true";
     }
     
     public List<ClientDTO> getAllClients() {
@@ -121,36 +286,6 @@ public class SoftwareManager implements Serializable {
 
     public void setCurrentConfiguration(ConfigurationDTO currentConfiguration) {
         this.currentConfiguration = currentConfiguration;
-    } 
-    
-    
-    public String createSoftware(){
-        try{
-            int newId=newSoftware.getId();
-            softwareBean.create(newId,newSoftware.getName(), 
-                    newSoftware.getBaseVersion());            
-            newSoftware.reset();
-           
-        } catch (Exception e) {
-            logger.warning("Problem creating software in method createSoftware.");
-            return "admin_products_create?face-redirect=true";
-        }
-         return "admin_user_manager?faces-redirect=true";
-    }
-   
-    
-    
-    
-    public String updateSoftware(){
-        try{
-            softwareBean.update(currentSoftware.getId(),
-                    currentSoftware.getName(),
-                    currentSoftware.getBaseVersion());
-        }catch(Exception e){
-            logger.warning("Problem updating software in method updateSoftware");
-            return "admin_products_update";
-        }
-        return "user_overview?face-redirect=true";
     }
     
     public List<ConfigurationDTO> getCurrentSoftwareConfigurations(){
@@ -171,35 +306,21 @@ public class SoftwareManager implements Serializable {
         this.newSoftware = newSoftware;
     }
     
-    public SoftwareDTO getCurrentSoftware() {
-        return currentSoftware;
-    }
 
-    public void setCurrentSoftware(SoftwareDTO currentSoftware) {
-        this.currentSoftware = currentSoftware;
-    }
-    
+
     
     public String getUserPassword() {
             return userPassword;
     }
 
     public AdministratorDTO getCurrentAdmin() {
-        return currentAdmin;
+        return currentAdministrator;
     }
 
-    public void setCurrentAdmin(AdministratorDTO currentAdmin) {
-        this.currentAdmin = currentAdmin;
+    public void setCurrentAdmin(AdministratorDTO curreAdministratorDTO) {
+        this.currentAdministrator = curreAdministratorDTO;
     }
 
-    public ClientDTO getCurrentClient() {
-        return currentClient;
-    }
-
-    public void setCurrentClient(ClientDTO currentClient) {
-        this.currentClient = currentClient;
-    }
-   
     public void setUserPassword(String pwd) {
             this.userPassword = pwd;
     }
@@ -211,15 +332,7 @@ public class SoftwareManager implements Serializable {
     public void setMsg(String msg) {
             this.msg = msg;
     }
-
-    public UserDTO getLoggedUser() {
-        return loggedUser;
-    }
-
-    public void setLoggedUser(UserDTO loggedtUser) {
-        this.loggedUser = loggedUser;
-    }
-    
+  
     public String getUserUsername() {
             return userUsername;
     }
@@ -242,4 +355,6 @@ public class SoftwareManager implements Serializable {
         }
         return null;
     }
+    
+    
 }

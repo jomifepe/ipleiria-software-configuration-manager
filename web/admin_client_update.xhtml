@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>SCM - Client Update</title>
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/animate.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/fontawesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    </h:head>
+    <h:body>
+        <ui:insert>
+            <ui:include src="section_navbar.xhtml" />
+        </ui:insert>
+        
+        <section class="section-content mt-3 mb-5 animated fadeIn">
+            <div class="container">
+                <div class="row">
+                    <div class="col col-md-12 mb-4">
+                        <h1 class="mt-5">Updating Client</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-md-12 mt-3">
+                        <h:form class="p-4 bg-light rounded">
+                            <div class="form-group row">
+                                <h:outputLabel for="username" value="Username:" class="col-sm-2 col-form-label" />
+                                <div class="col-sm-10">
+                                    <h:outputText
+                                        id="username"
+                                        class="form-control"
+                                        value="#{softwareManager.currentClient.username}" />
+                                </div>
+                            </div>
+                           <div class="form-group row">
+                                <h:outputLabel for="name" value="Name:" class="col-sm-2 col-form-label" />
+                                <div class="col-sm-10">
+                                    <h:inputText
+                                        id="name"
+                                        class="form-control"
+                                        required="true"
+                                        requiredMessage="Name cannot be empty"
+                                        value="#{softwareManager.currentClient.name}" />
+                                    <small><h:message class="form-text" for="name" errorStyle="color:red" /></small>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <h:outputLabel for="password" value="Password:" class="col-sm-2 col-form-label" />
+                                <div class="col-sm-10">
+                                    <h:inputSecret
+                                        id="password"
+                                        class="form-control"
+                                        required="true"
+                                        requiredMessage="Password cannot be empty"
+                                        value="#{softwareManager.currentClient.password}" />
+                                    <small><h:message class="form-text" for="password" errorStyle="color:red" /></small>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <h:outputLabel for="email" value="Email:" class="col-sm-2 col-form-label" />
+                                <div class="col-sm-10">
+                                    <h:inputText
+                                        id="email"
+                                        class="form-control"
+                                        required="true"
+                                        requiredMessage="Email cannot be empty"
+                                        value="#{softwareManager.currentClient.email}">
+                                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                                    </h:inputText>
+                                    <small><h:message class="form-text" for="email" errorStyle="color:red" /></small>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <h:outputLabel for="address" value="Address:" class="col-sm-2 col-form-label" />
+                                <div class="col-sm-10">
+                                    <h:inputText
+                                        id="address"
+                                        class="form-control"
+                                        required="true"
+                                        requiredMessage="Address cannot be empty"
+                                        value="#{softwareManager.currentClient.address}" />
+                                    <small><h:message class="form-text" for="address" errorStyle="color:red" /></small>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <h:outputLabel for="contact" value="Contact:" class="col-sm-2 col-form-label" />
+                                <div class="col-sm-10">
+                                    <h:inputText
+                                        id="contact"
+                                        class="form-control"
+                                        required="true"
+                                        requiredMessage="Contact cannot be empty"
+                                        value="#{softwareManager.currentClient.contact}"/>
+                                    <small><h:message class="form-text" for="contact" errorStyle="color:red" /></small>
+                                </div>
+                            </div>
+
+                            <div class="cleafix">
+                                <h:commandButton
+                                    id="submit"
+                                    class="btn btn-primary float-right btn-lg mt-3"
+                                    value="Update"
+                                    action="#{softwareManager.updateClient}" />
+                                <h:message for="submit" errorStyle="color:red" />
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </h:body>
+</html>
+
