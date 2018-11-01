@@ -76,8 +76,9 @@ public class ClientBean {
             if(client == null || configuration == null){
                 return;
             }
-            client.addConfiguration(configuration);
             configuration.addClient(client);
+            client.addConfiguration(configuration);
+            
             em.merge(client);    
             em.merge(configuration);
         }catch(Exception e){

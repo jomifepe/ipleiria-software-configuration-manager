@@ -77,4 +77,15 @@ public class Software implements Serializable {
         this.configurations = configurations;
     }
     
+    public List<Configuration> getTemplates(){
+        List<Configuration> templates=new ArrayList<>();
+        for(Configuration c:configurations){
+            if(c.getConfigurationType()==ConfigurationType.TEMPLATE){
+                templates.add(c);
+            }
+        }
+        
+        return templates;
+    }
+    
 }

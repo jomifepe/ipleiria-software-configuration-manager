@@ -75,6 +75,7 @@
                                             <f:setPropertyActionListener target="#{softwareManager.currentClient}" value="#{client}"/>
                                             <i class="fas fa-edit"></i>
                                         </h:commandLink>
+                                        
                                         <h:commandLink class="btn btn-danger ml-1" actionListener="#{softwareManager.deleteClient}" title="Delete client">
                                             <f:param name="deleteClientUsername" id="deleteClientUsername" value="#{client.username}"/>
                                             <i class="fas fa-trash"></i>

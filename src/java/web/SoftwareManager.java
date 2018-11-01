@@ -17,6 +17,7 @@ import ejb.SoftwareBean;
 import entity.Administrator;
 import entity.Client;
 import entity.Configuration;
+import entity.ConfigurationType;
 import entity.Software;
 import entity.User;
 import java.io.Serializable;
@@ -45,7 +46,7 @@ public class SoftwareManager implements Serializable {
 
     private ClientDTO currentClient;
     private AdministratorDTO currentAdministrator;
-    private ConfigurationDTO currentConfiguration;
+    private ConfigurationDTO currentConfiguration,newTemplate,currentTemplate;
     private SoftwareDTO currentSoftware, newSoftware;
     
     @EJB private ClientBean clientBean;
@@ -60,6 +61,7 @@ public class SoftwareManager implements Serializable {
         this.loggedUser = new UserDTO();
         this.currentConfiguration = new ConfigurationDTO();
         this.newSoftware = new SoftwareDTO();
+        this.newTemplate=new ConfigurationDTO();
     }
     
     public String createClient() {
@@ -205,7 +207,49 @@ public class SoftwareManager implements Serializable {
         }
         return "user_overview";
     }
-                
+    
+    
+    public String createTemplate() {
+        try{
+            configurationBean.createTemplate(
+                    newTemplate.getId(), 
+                    newTemplate.getDescription(),
+                    currentSoftware.getId(),
+                    ConfigurationType.TEMPLATE);            
+            newTemplate.reset();
+        } catch (Exception e) {
+            logger.warning("Problem creating teample of software in method createTemplate.");
+            return "admin_template_create?face-redirect=true";
+        }
+         return "admin_software_manager?faces-redirect=true";
+    }
+    
+    public String updateTemplate() {
+        try{
+            configurationBean.updateTemplate(
+                    currentTemplate.getId(),
+                    currentTemplate.getDescription());
+        } catch(Exception e) {
+            logger.warning("Problem updating template in method updateTemplate");
+            return "admin_template_update";
+        }
+        return "admin_software_manager?face-redirect=true";
+    }
+    
+    public String deleteTemplate(ActionEvent event) {
+        try {
+            UIParameter param = (UIParameter) event.getComponent().findComponent("deleteTemplateId");
+            String id=param.getValue().toString();
+            
+            configurationBean.deleteTemplate(Integer.parseInt(id));
+        } catch (Exception e) {
+            logger.warning("Problem deleting template in method deleteTemplate");
+        }
+        
+        return "admin_software_manager?faces-redirect=true";
+    }
+    
+    
     public SoftwareDTO getCurrentSoftware() {
         return currentSoftware;
     }
@@ -288,9 +332,9 @@ public class SoftwareManager implements Serializable {
         this.currentConfiguration = currentConfiguration;
     }
     
-    public List<ConfigurationDTO> getCurrentSoftwareConfigurations(){
+    public List<ConfigurationDTO> getCurrentSoftwareTemplates(){
         try {
-            return configurationBean.getConfigurationsForSoftware(currentSoftware.getId());
+            return configurationBean.getCurrentSoftwareTempates(currentSoftware.getId());
         } catch (Exception e) {
             logger.warning("Problem fetching all configurations in method getCurrentSoftwareConfigurations");
             return null;
@@ -305,9 +349,14 @@ public class SoftwareManager implements Serializable {
     public void setNewSoftware(SoftwareDTO newSoftware) {
         this.newSoftware = newSoftware;
     }
-    
 
+    public ConfigurationDTO getCurrentTemplate() {
+        return currentTemplate;
+    }
 
+    public void setCurrentTemplate(ConfigurationDTO currentTemplate) {
+        this.currentTemplate = currentTemplate;
+    }
     
     public String getUserPassword() {
             return userPassword;
@@ -355,6 +404,16 @@ public class SoftwareManager implements Serializable {
         }
         return null;
     }
+
+    public ConfigurationDTO getNewTemplate() {
+        return newTemplate;
+    }
+
+    public void setNewTemplate(ConfigurationDTO newTemplate) {
+        this.newTemplate = newTemplate;
+    }
+    
+    
     
     
 }

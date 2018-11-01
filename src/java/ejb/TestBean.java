@@ -1,5 +1,6 @@
 package ejb;
 
+import entity.ConfigurationType;
 import entity.Status;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -44,7 +45,7 @@ public class TestBean {
         
         parameterBean.create(1,"loginAttemps","10");
         
-        configurationBean.create(1,"Configuração Office 365",1);
+        configurationBean.createTemplate(1,"Configuração Office 365",1,ConfigurationType.TEMPLATE);
         configurationBean.addModule(1,1);
         configurationBean.addHardware(1,"CPU: Intel core 2 duo");
         configurationBean.addHardware(1,"RAM: 4 GB ddr3");
@@ -53,10 +54,10 @@ public class TestBean {
         configurationBean.addParameter(1,1);
         configurationBean.addExtension(1,"plugins para google docs");
         
-        configurationBean.create(2,"Configuração NetBeans",2);
-        configurationBean.create(3,"Configuração Pycharm",3);
+        configurationBean.createTemplate(2,"Configuração NetBeans",2 ,ConfigurationType.TEMPLATE);
+        configurationBean.createTemplate(3,"Configuração Pycharm",3,ConfigurationType.TEMPLATE);
         
-        clientBean.addConfiguration("aron", 1);
+        configurationBean.createConfiguration(4, "Melhor config para o Aron",1,"aron", ConfigurationType.CONFIGURATION,"Contrato de 6 meses",Status.ACTIVE);
         
             
     }   

@@ -5,6 +5,7 @@
  */
 package dtos;
 
+import entity.ConfigurationType;
 import entity.Software;
 import entity.Status;
 import java.io.Serializable;
@@ -26,6 +27,8 @@ public class ConfigurationDTO implements Serializable {
     private List<String> extensions;
     private String contractInfo;
     private Status status;
+    private int template_id;
+    private ConfigurationType  configurationType;
 
     public ConfigurationDTO() {
     }
@@ -100,5 +103,24 @@ public class ConfigurationDTO implements Serializable {
 
     public void setStatus(Status status) {
         this.status = status;
-    }   
+    }
+
+    public int getTemplate_id() {
+        return template_id;
+    }
+
+    public void setTemplate_id(int template_id) {
+        this.template_id = template_id;
+    }
+
+    public ConfigurationType getConfigurationType() {
+        return configurationType;
+    }
+
+    public void setConfigurationType(ConfigurationType configurationType) {
+        this.configurationType = configurationType;
+    }
+    
+    
+    
 }

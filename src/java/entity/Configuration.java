@@ -61,6 +61,9 @@ private static final long serialVersionUID = 1L;
     private List<String> extensions;
     private String contractInfo;
     private Status status;
+    private ConfigurationType configurationType;
+    private int templateId;
+   
 
     public Configuration() {
         this.modules = new ArrayList<>();
@@ -71,10 +74,27 @@ private static final long serialVersionUID = 1L;
         this.clients = new ArrayList<>();
     }
     
-    public Configuration(int id,String description, Software software) {
+    public Configuration(int id,String description, Software software, ConfigurationType configurationType) {
         this.id = id;
         this.description = description;
         this.software = software;
+        this.configurationType=configurationType;
+        this.modules = new ArrayList<>();
+        this.hardware = new ArrayList<>();
+        this.licences = new ArrayList<>();
+        this.parameters = new ArrayList<>();
+        this.extensions = new ArrayList<>();
+        this.clients = new ArrayList<>();
+    }
+    
+    public Configuration(int id,String description, Software software, ConfigurationType configurationType, int templateId, String contractInfo, Status status) {
+        this.id = id;
+        this.description = description;
+        this.software = software;
+        this.configurationType=configurationType;
+        this.templateId=templateId;
+        this.contractInfo=contractInfo;
+        this.status=status;
         this.modules = new ArrayList<>();
         this.hardware = new ArrayList<>();
         this.licences = new ArrayList<>();
@@ -205,4 +225,22 @@ private static final long serialVersionUID = 1L;
      public void removeClient(Client client){
          this.clients.remove(client);
      }
+
+    public ConfigurationType getConfigurationType() {
+        return configurationType;
+    }
+
+    public void setConfigurationType(ConfigurationType configurationType) {
+        this.configurationType = configurationType;
+    }
+
+    public int getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(int templateId) {
+        this.templateId = templateId;
+    }
+     
+     
 }

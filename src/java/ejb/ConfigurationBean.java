@@ -9,10 +9,12 @@ import entity.Parameter;
 import entity.Software;
 import entity.User;
 import entity.Administrator;
+import entity.ConfigurationType;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import entity.Status;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,18 +28,45 @@ public class ConfigurationBean {
     public ConfigurationBean() {
     }
     
-    public void create(int id,String description, int software_id){
+    public void createTemplate(int id,String description, int software_id, ConfigurationType configurationType){
         try{
             Software software=em.find(Software.class, software_id);
             if(software==null){
                 return ;
             }
-            
-            Configuration configuration = new Configuration(id,description,software);
-            
+
+            Configuration configuration = new Configuration(id,description,software,configurationType);
+
             software.addConfiguration(configuration);
             em.persist(configuration);
             em.merge(software);
+        }catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+    
+    public void createConfiguration(int id,String description, int templateId, String username,ConfigurationType configurationType,String contractInfo, Status status){
+        try{
+            
+            Client client=em.find(Client.class, username);
+            if(client==null){
+                return ;
+            }
+            Configuration template=em.find(Configuration.class, templateId);
+           
+            Software software=em.find(Software.class, template.getSoftware().getId());
+            if(software==null){
+                return ;
+            }
+            
+            Configuration configuration = new Configuration(id,description,software,configurationType,templateId,contractInfo,status);
+            software.addConfiguration(configuration);
+            configuration.addClient(client);
+            client.addConfiguration(configuration);
+            
+            em.persist(configuration);
+            em.merge(software);
+            em.merge(client);
         }catch(Exception e){
             throw new EJBException(e.getMessage());
         }
@@ -47,6 +76,20 @@ public class ConfigurationBean {
         try{
             List<Configuration> configurations = em.createNamedQuery("getAllConfigurations").getResultList(); 
             return configurationsToDTOs(configurations);
+        }catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+    
+    public void updateTemplate(int id,String description){
+        try{
+            Configuration configuration=em.find(Configuration.class, id);
+            if(configuration==null){
+                return ;
+            }
+
+            configuration.setDescription(description);
+            em.merge(configuration);
         }catch(Exception e){
             throw new EJBException(e.getMessage());
         }
@@ -154,13 +197,13 @@ public class ConfigurationBean {
         }
     }
 
-     public List<ConfigurationDTO> getConfigurationsForSoftware(int id) {
+     public List<ConfigurationDTO> getCurrentSoftwareTempates(int id) {
          try{
             Software software = em.find(Software.class, id);
             if(software==null){
                 return null;
             } 
-            return configurationsToDTOs(software.getConfigurations());
+            return configurationsToDTOs(software.getTemplates());
         }catch(Exception e){
             throw new EJBException(e.getMessage());
         }
@@ -194,6 +237,29 @@ public class ConfigurationBean {
             dtos.add(ConfigurationToDTO(s));
         }
         return dtos;
+    }
+
+    public void deleteTemplate(int id) {
+       try {
+            Configuration configuration = em.find(Configuration.class, id);
+            if(configuration == null){
+                return;
+            }
+            
+             List<Configuration> configurations = em.createNamedQuery("getAllConfigurations").getResultList(); 
+            
+             for(Configuration c: configurations){
+                 if(c.getTemplateId()==id){
+                     em.remove(c);
+                 }
+             }
+             Software software=configuration.getSoftware();
+             software.remveConfiguration(configuration);
+            
+            em.remove(configuration);
+        } catch(Exception e) {
+            throw new EJBException("Problem removing Template from DB -> " + e.getMessage());
+        }
     }
 
     
