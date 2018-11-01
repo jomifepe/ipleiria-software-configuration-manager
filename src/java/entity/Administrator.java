@@ -12,7 +12,8 @@ import javax.validation.constraints.NotNull;
 })
 public class Administrator extends User implements Serializable {
     
-    @NotNull private String role;
+    @NotNull 
+    private String role;
     
     public Administrator() {
     }
