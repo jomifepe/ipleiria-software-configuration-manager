@@ -50,6 +50,7 @@ private static final long serialVersionUID = 1L;
             joinColumns = @JoinColumn(name = "CONFIGURATION_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID"))
     private List<Module> modules;
+    
     private List<String> hardware;
     private List<String> licences;
     

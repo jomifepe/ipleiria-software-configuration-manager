@@ -5,8 +5,12 @@
  */
 package ejb;
 
+import dtos.ParameterDTO;
+import entity.Configuration;
 import entity.Module;
 import entity.Parameter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,5 +33,31 @@ public class ParameterBean {
         }catch(Exception e){
             throw new EJBException(e.getMessage());
         }
+    }
+
+    public List<ParameterDTO> getConfigurationParameters(int id) {
+         try{
+            Configuration configuration = em.find(Configuration.class,id);
+            if(configuration==null){
+                return null;
+            }
+            return parametersToDTOs(configuration.getParameters());
+            
+        }catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+    
+    
+    ParameterDTO parameterToDTO(Parameter parameter){
+        return new ParameterDTO(parameter.getId(),parameter.getName(), parameter.getValue());
+    }
+    
+    List<ParameterDTO> parametersToDTOs(List<Parameter> parameters){
+        List<ParameterDTO> dtos=new ArrayList<>();
+        for(Parameter s: parameters){
+            dtos.add(parameterToDTO(s));
+        }
+        return dtos;
     }
 }
