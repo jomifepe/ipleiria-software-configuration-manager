@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>SCM - Sign in</title>
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/animate.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/fontawesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    </h:head>
+    <h:body>  
+        <ui:insert>
+            <ui:include src="section_navbar.xhtml" />
+        </ui:insert>
+
+        <section class="section-content mt-3 mb-5 animated fadeIn">
+            <div class="container">
+                <div class="row">
+                    <div class="col col-md-12">
+                        <h:form>
+                            <h2 class="mt-5 mb-3">Client <span class="text-danger">#{softwareManager.currentClient.name}</span> Software</h2>
+                            <h:panelGrid columns="2">
+                                <h:outputLabel for="name" value="Software Name: "/>
+                                <h:outputText id="name" value="#{softwareManager.currentClientConfigurationSoftware().name}"/>
+                                <h:outputLabel for="baseVersion" value="BaseVersion: "/>
+                                <h:outputText id="baseVersion" value="#{softwareManager.currentClientConfigurationSoftware().baseVersion}"/>
+                            </h:panelGrid>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </h:body>
+</html>
+

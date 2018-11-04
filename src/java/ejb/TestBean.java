@@ -53,6 +53,8 @@ public class TestBean {
         configurationBean.addLicense(1,"940-664-6353");
         configurationBean.addParameter(1,1);
         configurationBean.addExtension(1,"plugins para google docs");
+        configurationBean.addExtension(1,"plugins para kodi");
+        
         
         configurationBean.createTemplate(2,"Configuração NetBeans",2 ,ConfigurationType.TEMPLATE);
         configurationBean.createTemplate(3,"Configuração Pycharm",3,ConfigurationType.TEMPLATE);

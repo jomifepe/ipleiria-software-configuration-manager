@@ -1,6 +1,7 @@
 package ejb;
 
 import dtos.ConfigurationDTO;
+import dtos.ModuleDTO;
 import dtos.SoftwareDTO;
 import entity.Client;
 import entity.Configuration;
@@ -46,20 +47,23 @@ public class ConfigurationBean {
     }
     
     public void createConfiguration(int id,String description, int templateId, String username,ConfigurationType configurationType,String contractInfo, Status status){
-        try{
-            
-            Client client=em.find(Client.class, username);
+        try{     
+            Client client = em.find(Client.class, username);
             if(client==null){
                 return ;
             }
-            Configuration template=em.find(Configuration.class, templateId);
+            Configuration template = em.find(Configuration.class, templateId);
            
-            Software software=em.find(Software.class, template.getSoftware().getId());
+            Software software = em.find(Software.class, template.getSoftware().getId());
             if(software==null){
                 return ;
             }
+   
             
-            Configuration configuration = new Configuration(id,description,software,configurationType,templateId,contractInfo,status);
+            //Configuration configuration = new Configuration(id,description,software,configurationType,templateId,contractInfo,status);
+            Configuration configuration = new Configuration(id, description, software, template.getModules(), template.getHardware(), template.getLicences(), template.getParameters(), template.getExtensions(), contractInfo, status, configurationType, templateId);
+            
+            
             software.addConfiguration(configuration);
             configuration.addClient(client);
             client.addConfiguration(configuration);
@@ -113,6 +117,19 @@ public class ConfigurationBean {
             throw new EJBException(e.getMessage());
         }
     }
+    
+    public List<ModuleDTO> getModules(int configId){
+         try{
+            Configuration config = em.find(Configuration.class, configId);
+            if(config==null){
+                return null;
+            }
+            System.out.println(config.getModules().size());
+            return ModuleBean.modulesToDTOs(config.getModules());      
+        }catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
    
     public void addHardware(int id_config, String hardware){
         try{
@@ -123,6 +140,7 @@ public class ConfigurationBean {
             configuration.addHardware(hardware);
             
             em.persist(configuration);
+            //em.merge(configuration);
         }catch(Exception e){
             throw new EJBException(e.getMessage());
         }
@@ -168,11 +186,10 @@ public class ConfigurationBean {
             if(configuration==null){
                 return;
             } 
-            
-            
+                    
             configuration.addExtension(extension);
            
-            em.persist(configuration);
+            em.merge(configuration);
         }catch(Exception e){
             throw new EJBException(e.getMessage());
         }
@@ -215,7 +232,6 @@ public class ConfigurationBean {
             if(client == null){
                 return null;
             }
-             System.out.println(client.getName());
             List<Configuration> configs = client.getConfigurations();
             return configurationsToDTOs(configs);
          }catch(Exception e){
@@ -223,15 +239,36 @@ public class ConfigurationBean {
          }
      }
      
-     
-     ConfigurationDTO ConfigurationToDTO(Configuration config){
-        return new ConfigurationDTO(config.getId(),
-                             config.getDescription(), 
-                             config.getSoftware().getId(),
-                             config.getSoftware().getName());
+     public SoftwareDTO getClientConfigurationSoftware(int id) {
+        try{
+           Configuration config = em.find(Configuration.class, id);
+            if(config == null){
+                return null;
+            }  
+            return SoftwareBean.softwareToDTO(config.getSoftware());   
+         }catch(Exception e){
+             throw new EJBException(e.getMessage());
+         } 
+    }
+   
+    
+     public static ConfigurationDTO ConfigurationToDTO(Configuration config){
+        return new ConfigurationDTO(
+                config.getId(),
+                config.getDescription(),
+                config.getSoftware().getId(),
+                config.getSoftware().getName(),
+                config.getExtensions(),
+                config.getContractInfo(),
+                config.getStatus().toString(),
+                config.getHardware(),
+                config.getTemplateId(),
+                config.getConfigurationType(),
+                config.getLicences()
+                );
     }
     
-    List<ConfigurationDTO> configurationsToDTOs(List<Configuration> configurations){
+    public static List<ConfigurationDTO> configurationsToDTOs(List<Configuration> configurations){
         List<ConfigurationDTO> dtos=new ArrayList<>();
         for(Configuration s: configurations){
             dtos.add(ConfigurationToDTO(s));
@@ -261,6 +298,8 @@ public class ConfigurationBean {
             throw new EJBException("Problem removing Template from DB -> " + e.getMessage());
         }
     }
+
+    
 
     
    

@@ -6,40 +6,53 @@
 package dtos;
 
 import entity.ConfigurationType;
-import entity.Software;
-import entity.Status;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author ruben
  */
 public class ConfigurationDTO implements Serializable {
+    
+    
     private int id;
     private String description;
     private int softwareCode;
     private String softwareName;
     private List<String> extensions;
     private String contractInfo;
-    private Status status;
+    private String status;
+    private List<String> hardware;
     private int template_id;
     private ConfigurationType  configurationType;
+    private List<String> licences;
 
     public ConfigurationDTO() {
     }
 
-    public ConfigurationDTO(int id, String description, int software_code, String software_name) {
+    public ConfigurationDTO(int id, String description, int softwareCode, String softwareName, List<String> extensions, String contractInfo, String status, List<String> hardware, int template_id, ConfigurationType configurationType, List<String> licences) {
+        this.id = id;
+        this.description = description;
+        this.softwareCode = softwareCode;
+        this.softwareName = softwareName;
+        this.extensions = extensions;
+        this.contractInfo = contractInfo;
+        this.status = status;
+        this.hardware = hardware;
+        this.template_id = template_id;
+        this.configurationType = configurationType;
+        this.licences = licences;
+    }
+
+    /*public ConfigurationDTO(int id, String description, int software_code, String software_name) {
         this.id = id;
         this.description = description;
         this.softwareCode = software_code;
         this.softwareName = software_name;
         this.extensions=new ArrayList<>();
-    }
+    }*/
     
     public void reset(){
         this.id=0;
@@ -97,11 +110,11 @@ public class ConfigurationDTO implements Serializable {
         this.contractInfo = contractInfo;
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -120,6 +133,25 @@ public class ConfigurationDTO implements Serializable {
     public void setConfigurationType(ConfigurationType configurationType) {
         this.configurationType = configurationType;
     }
+
+    public List<String> getHardware() {
+        return hardware;
+    }
+
+    public void setHardware(List<String> hardware) {
+        this.hardware = hardware;
+    }
+
+    public List<String> getLicences() {
+        return licences;
+    }
+
+    public void setLicences(List<String> licences) {
+        this.licences = licences;
+    }
+    
+    
+    
     
     
     

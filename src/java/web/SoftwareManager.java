@@ -10,20 +10,15 @@ import dtos.ClientDTO;
 import dtos.ConfigurationDTO;
 import dtos.SoftwareDTO;
 import dtos.UserDTO;
+import dtos.ModuleDTO;
 import ejb.AdministratorBean;
 import ejb.ClientBean;
 import ejb.ConfigurationBean;
 import ejb.SoftwareBean;
-import entity.Administrator;
-import entity.Client;
-import entity.Configuration;
 import entity.ConfigurationType;
-import entity.Software;
-import entity.User;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
-import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 
 import javax.enterprise.context.SessionScoped;
@@ -63,7 +58,8 @@ public class SoftwareManager implements Serializable {
         this.newSoftware = new SoftwareDTO();
         this.newTemplate=new ConfigurationDTO();
     }
-    
+  
+    //////////////////////////////////////// CRUD
     public String createClient() {
         try {
             clientBean.create(
@@ -77,8 +73,7 @@ public class SoftwareManager implements Serializable {
         } catch (Exception e) {
             logger.warning("Problem creating client in method createClient.");
             return "admin_client_create?faces-redirect=true";
-        }
-        
+        }     
         return "admin_user_manager?faces-redirect=true";
     }
     
@@ -94,8 +89,7 @@ public class SoftwareManager implements Serializable {
         } catch (Exception e) {
             logger.warning("Problem creating administrator in method createAdministrator.");
             return "admin_administrator_create?faces-redirect=true";
-        }
-        
+        }       
         return "admin_user_manager?faces-redirect=true";
     }
     
@@ -187,28 +181,6 @@ public class SoftwareManager implements Serializable {
         return "admin_user_manager?faces-redirect=true";
     }
     
-
-    public List<ConfigurationDTO> currentClientConfigurations(){
-        return configurationBean.getClientConfigurations(currentClient.getUsername());
-    }
-    
-
-    
-    public String validateUsernamePassword() {
-        loggedUser = null;
-        
-        loggedUser = clientBean.isValid(userUsername, userPassword);
-      
-        if(loggedUser == null){ //É client?
-            loggedUser = administratorBean.validAdmin(userUsername, userPassword);
-            if(loggedUser == null){//É admin?
-                return "login";
-            }
-        }
-        return "user_overview";
-    }
-    
-    
     public String createTemplate() {
         try{
             configurationBean.createTemplate(
@@ -247,6 +219,36 @@ public class SoftwareManager implements Serializable {
         }
         
         return "admin_software_manager?faces-redirect=true";
+    }
+    
+     ////////////////////////////////////////
+    
+    
+    
+    public List<ConfigurationDTO> currentClientConfigurations(){
+        return configurationBean.getClientConfigurations(currentClient.getUsername());
+    }
+    
+    public SoftwareDTO currentClientConfigurationSoftware(){
+        return configurationBean.getClientConfigurationSoftware(currentConfiguration.getId());
+    }
+    
+
+    public String validateUsernamePassword() {
+        loggedUser = null; 
+        loggedUser = clientBean.isValid(userUsername, userPassword);
+        if(loggedUser == null){ //É client?
+            loggedUser = administratorBean.validAdmin(userUsername, userPassword);
+            if(loggedUser == null){//É admin?
+                return "login";
+            }
+        }
+        return "user_overview";
+    }
+    
+    
+    public List<ModuleDTO> getCurrentClientConfigurationModules(int configId){
+        return configurationBean.getModules(configId);
     }
     
     
@@ -327,10 +329,15 @@ public class SoftwareManager implements Serializable {
     public ConfigurationDTO getCurrentConfiguration() {
         return currentConfiguration;
     }
+    
+    public boolean hasCurrentClientGotConfiguration(){
+        return clientBean.hasClientGotConfigurations(currentClient.getUsername());
+    }
 
     public void setCurrentConfiguration(ConfigurationDTO currentConfiguration) {
         this.currentConfiguration = currentConfiguration;
     }
+   
     
     public List<ConfigurationDTO> getCurrentSoftwareTemplates(){
         try {

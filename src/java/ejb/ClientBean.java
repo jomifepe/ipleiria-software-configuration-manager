@@ -101,7 +101,21 @@ public class ClientBean {
     }
     
     
-    ClientDTO clientToDTO(Client client) {
+    public boolean hasClientGotConfigurations(String username){
+        try {
+            Client client = em.find(Client.class, username);
+            if (client == null) {
+                return false;
+            }
+            return (client.getConfigurations().size() > 0);
+            
+        } catch (Exception e) {
+            throw new EJBException("Problem hasClientGotConfigurations -> " + e.getMessage());
+        }
+    }
+    
+    
+    public static ClientDTO clientToDTO(Client client) {
         return new ClientDTO(client.getUsername(),
                              client.getPassword(), 
                              client.getName(),
@@ -110,7 +124,7 @@ public class ClientBean {
                              client.getContact());
     }
     
-    List<ClientDTO> clientsToDTOs(List<Client> clients) {
+    public static List<ClientDTO> clientsToDTOs(List<Client> clients) {
         List<ClientDTO> dtos = new ArrayList<>();
         clients.forEach((s) -> {
             dtos.add(clientToDTO(s));

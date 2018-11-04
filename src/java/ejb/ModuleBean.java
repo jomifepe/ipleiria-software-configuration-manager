@@ -5,7 +5,10 @@
  */
 package ejb;
 
+import dtos.ModuleDTO;
 import entity.Module;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,4 +32,23 @@ public class ModuleBean {
             throw new EJBException(e.getMessage());
         }
     }
+    
+    
+    public static ModuleDTO moduleToDTO(Module module){
+        return new ModuleDTO(
+                module.getId(),
+                module.getName()
+                );
+    }
+    
+    public static List<ModuleDTO> modulesToDTOs(List<Module> modules){
+        List<ModuleDTO> dtos = new ArrayList<>();
+        for(Module s: modules){
+            dtos.add(moduleToDTO(s));
+        }
+        return dtos;
+    }
+    
+    
+    
 }

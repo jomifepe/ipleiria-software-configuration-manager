@@ -62,13 +62,13 @@ public class SoftwareBean {
         }
     }
     
-    SoftwareDTO softwareToDTO(Software software){
+    public static SoftwareDTO softwareToDTO(Software software){
         return new SoftwareDTO(software.getId(),
                                     software.getName(), 
                                     software.getBaseVersion());
     }
     
-    List<SoftwareDTO> softwaresToDTOs(List<Software> softwares){
+    public static List<SoftwareDTO> softwaresToDTOs(List<Software> softwares){
         List<SoftwareDTO> dtos=new ArrayList<>();
         for(Software s: softwares){
             dtos.add(softwareToDTO(s));

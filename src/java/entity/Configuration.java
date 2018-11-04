@@ -86,8 +86,26 @@ private static final long serialVersionUID = 1L;
         this.extensions = new ArrayList<>();
         this.clients = new ArrayList<>();
     }
+
+    public Configuration(int id, String description, Software software, List<Module> modules, List<String> hardware, List<String> licences, List<Parameter> parameters, List<String> extensions, String contractInfo, Status status, ConfigurationType configurationType, int templateId) {
+        this.id = id;
+        this.description = description;
+        this.software = software;
+        this.clients = new ArrayList<>();
+        this.modules = modules;
+        this.hardware = hardware;
+        this.licences = licences;
+        this.parameters = parameters;
+        this.extensions = extensions;
+        this.contractInfo = contractInfo;
+        this.status = status;
+        this.configurationType = configurationType;
+        this.templateId = templateId;
+    }
     
-    public Configuration(int id,String description, Software software, ConfigurationType configurationType, int templateId, String contractInfo, Status status) {
+    
+    
+    /*public Configuration(int id,String description, Software software, ConfigurationType configurationType, int templateId, String contractInfo, Status status) {
         this.id = id;
         this.description = description;
         this.software = software;
@@ -101,7 +119,9 @@ private static final long serialVersionUID = 1L;
         this.parameters = new ArrayList<>();
         this.extensions = new ArrayList<>();
         this.clients = new ArrayList<>();
-    }
+    }*/
+    
+    
    
     public List<String> getHardware() {
         return hardware;
@@ -141,14 +161,6 @@ private static final long serialVersionUID = 1L;
 
     public void setModules(List<Module> modules) {
         this.modules = modules;
-    }
-
-    public List<String> getHardwares() {
-        return hardware;
-    }
-
-    public void setHardwares(List<String> hardwares) {
-        this.hardware = hardwares;
     }
 
     public List<String> getLicences() {
@@ -241,6 +253,13 @@ private static final long serialVersionUID = 1L;
     public void setTemplateId(int templateId) {
         this.templateId = templateId;
     }
+
+    @Override
+    public String toString() {
+        return "Configuration{" + "id=" + id + ", description=" + description + ", software=" + software + ", clients=" + clients + ", modules=" + modules + ", hardware=" + hardware + ", licences=" + licences + ", parameters=" + parameters + ", extensions=" + extensions + ", contractInfo=" + contractInfo + ", status=" + status + ", configurationType=" + configurationType + ", templateId=" + templateId + '}';
+    }
+    
+    
      
      
 }
