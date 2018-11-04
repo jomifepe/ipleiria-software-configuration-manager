@@ -5,7 +5,10 @@
  */
 package ejb;
 
+import dtos.AdministratorDTO;
 import dtos.ModuleDTO;
+import entity.Administrator;
+import entity.Configuration;
 import entity.Module;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,23 +35,18 @@ public class ModuleBean {
             throw new EJBException(e.getMessage());
         }
     }
-    
-    
+
+            
     public static ModuleDTO moduleToDTO(Module module){
-        return new ModuleDTO(
-                module.getId(),
-                module.getName()
-                );
+        return new ModuleDTO(module.getId(),module.getName());
     }
     
     public static List<ModuleDTO> modulesToDTOs(List<Module> modules){
-        List<ModuleDTO> dtos = new ArrayList<>();
+        List<ModuleDTO> dtos=new ArrayList<>();
         for(Module s: modules){
             dtos.add(moduleToDTO(s));
         }
         return dtos;
     }
-    
-    
-    
+
 }

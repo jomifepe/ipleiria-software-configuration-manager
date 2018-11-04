@@ -8,12 +8,16 @@ package web;
 import dtos.AdministratorDTO;
 import dtos.ClientDTO;
 import dtos.ConfigurationDTO;
+import dtos.ModuleDTO;
+import dtos.ParameterDTO;
 import dtos.SoftwareDTO;
 import dtos.UserDTO;
 import dtos.ModuleDTO;
 import ejb.AdministratorBean;
 import ejb.ClientBean;
 import ejb.ConfigurationBean;
+import ejb.ModuleBean;
+import ejb.ParameterBean;
 import ejb.SoftwareBean;
 import entity.ConfigurationType;
 import java.io.Serializable;
@@ -48,6 +52,9 @@ public class SoftwareManager implements Serializable {
     @EJB private AdministratorBean administratorBean;
     @EJB private ConfigurationBean configurationBean;
     @EJB private SoftwareBean softwareBean;
+    @EJB private ModuleBean moduleBean;    
+    @EJB private ParameterBean parameterBean;
+
 
     
     public SoftwareManager() {
@@ -249,6 +256,14 @@ public class SoftwareManager implements Serializable {
     
     public List<ModuleDTO> getCurrentClientConfigurationModules(int configId){
         return configurationBean.getModules(configId);
+    }
+    
+    public List<ModuleDTO> getCurrentTemplateModules(){
+         return moduleBean.getConfigurationModules(currentTemplate.getId());
+    }
+    
+   public List<ParameterDTO> getCurrentTemplateParameters(){
+         return parameterBean.getConfigurationParameters(currentTemplate.getId());
     }
     
     

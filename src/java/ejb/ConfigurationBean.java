@@ -105,6 +105,7 @@ public class ConfigurationBean {
             if(configuration==null){
                 return;
             }
+            
             Module module = em.find(Module.class, id_module);
             if(module==null){
                 return;

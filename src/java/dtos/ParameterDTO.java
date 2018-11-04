@@ -6,22 +6,24 @@
 package dtos;
 
 import java.io.Serializable;
+
 /**
  *
- * @author luisflores
+ * @author ruben
  */
-
-public class ModuleDTO implements Serializable {
+public class ParameterDTO implements Serializable {
     
     private int id;
     private String name;
+    private String value;
  
-    public ModuleDTO() {
+    public ParameterDTO() {
     }
 
-    public ModuleDTO(int id, String name) {
+    public ParameterDTO(int id, String name, String value) {
         this.id = id;
         this.name = name;
+        this.value=value;
     }
 
     public int getId() {
@@ -39,4 +41,14 @@ public class ModuleDTO implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+    
+    
 }

@@ -61,6 +61,73 @@
                             </h:form>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col col-md-12"> 
+                            <h:form>
+                                <h2 class="mt-5 mb-3">Modules</h2>
+                                   <h:dataTable
+                                       class="table table-striped table-bordered"
+                                       var="module"
+                                       summary="List of all modules"
+                                       value="${softwareManager.currentTemplateModules}"
+                                       rules="all"
+                                       cellpadding="5">
+
+                                       <h:column>
+                                           <f:facet name="header">
+                                               <h:outputText value="Name"/>
+                                           </f:facet>
+                                           <h:outputText value="#{module.name}"/>
+                                       </h:column>     
+                                   </h:dataTable>
+                            </h:form>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col col-md-12"> 
+                            <h:form>
+                                <h2 class="mt-5 mb-3">Parameters</h2>
+                                   <h:dataTable
+                                       class="table table-striped table-bordered"
+                                       var="parameter"
+                                       summary="List of all parameters"
+                                       value="${softwareManager.currentTemplateParameters}"
+                                       rules="all"
+                                       cellpadding="5">
+                                       <h:column>
+                                           <f:facet name="header">
+                                               <h:outputText value="Name"/>
+                                           </f:facet>
+                                           <h:outputText value="#{parameter.name}"/>
+                                       </h:column> 
+                                       <h:column>
+                                           <f:facet name="header">
+                                               <h:outputText value="Value"/>
+                                           </f:facet>
+                                           <h:outputText value="#{parameter.value}"/>
+                                       </h:column> 
+                                       <h:column>
+                                        <f:facet name="header"> 
+                                            <h:outputText value="Actions"/>
+                                        </f:facet>
+                                        <h:commandLink class="btn btn-primary" action="admin_template_details?faces-redirect=true" title="View template details">
+                                            <f:setPropertyActionListener target="#{softwareManager.currentTemplate}" value="#{configuration}"/>
+                                            <i class="fas fa-info-circle"></i>
+                                        </h:commandLink>
+                                        <h:commandLink class="btn btn-info ml-1" action="admin_template_update?faces-redirect=true" title="Edit template">
+                                            <f:setPropertyActionListener target="#{softwareManager.currentTemplate}" value="#{configuration}"/>
+                                            <i class="fas fa-edit"></i>
+                                        </h:commandLink>
+                                        <h:commandLink class="btn btn-danger ml-1" actionListener="#{softwareManager.deleteTemplate}" title="Remove template">
+                                            <f:param name="deleteTemplateId" id="deleteTemplateId" value="#{configuration.id}"/>
+                                            <i class="fas fa-trash"></i>
+                                        </h:commandLink>
+                                    </h:column>
+                                </h:dataTable>
+                                <h:link class="btn btn-success btn-block btn-lg" outcome="admin_module_create"  value="New template"/>
+                            </h:form>
+                        </div>
+                    </div>
                 </div>
             </section>
         </c:if>
