@@ -258,10 +258,7 @@ public class SoftwareManager implements Serializable {
         return configurationBean.getModules(configId);
     }
     
-    public List<ModuleDTO> getCurrentTemplateModules(){
-         return moduleBean.getConfigurationModules(currentTemplate.getId());
-    }
-    
+   
    public List<ParameterDTO> getCurrentTemplateParameters(){
          return parameterBean.getConfigurationParameters(currentTemplate.getId());
     }
