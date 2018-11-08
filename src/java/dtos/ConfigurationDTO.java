@@ -46,6 +46,19 @@ public class ConfigurationDTO implements Serializable {
         this.licences = licences;
     }
 
+    public ConfigurationDTO(int id, String description, int softwareCode, String softwareName, List<String> extensions, List<String> hardware, int templateCode, ConfigurationType configurationType) {
+       this.id = id;
+        this.description = description;
+        this.softwareCode = softwareCode;
+        this.softwareName = softwareName;
+        this.extensions = extensions;
+        this.hardware = hardware;
+        this.template_id = templateCode;
+        this.configurationType = configurationType;
+    }
+
+ 
+
     /*public ConfigurationDTO(int id, String description, int software_code, String software_name) {
         this.id = id;
         this.description = description;

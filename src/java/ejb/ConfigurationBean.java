@@ -221,7 +221,7 @@ public class ConfigurationBean {
             if(software==null){
                 return null;
             } 
-            return configurationsToDTOs(software.getTemplates());
+            return templatesToDTOs(software.getTemplates());
         }catch(Exception e){
             throw new EJBException(e.getMessage());
         }
@@ -252,6 +252,25 @@ public class ConfigurationBean {
          } 
     }
    
+    public static ConfigurationDTO templateToDTO(Configuration config){
+         return new ConfigurationDTO(
+                config.getId(),
+                config.getDescription(),
+                config.getSoftware().getId(),
+                config.getSoftware().getName(),
+                config.getExtensions(),
+                config.getHardware(),
+                config.getTemplateId(),
+                config.getConfigurationType());
+    }
+     
+     public static List<ConfigurationDTO> templatesToDTOs(List<Configuration> configurations){
+        List<ConfigurationDTO> dtos=new ArrayList<>();
+        for(Configuration s: configurations){
+            dtos.add(templateToDTO(s));
+        }
+        return dtos;
+    }
     
      public static ConfigurationDTO ConfigurationToDTO(Configuration config){
         return new ConfigurationDTO(

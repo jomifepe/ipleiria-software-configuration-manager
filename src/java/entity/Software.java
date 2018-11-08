@@ -87,5 +87,4 @@ public class Software implements Serializable {
         
         return templates;
     }
-    
 }

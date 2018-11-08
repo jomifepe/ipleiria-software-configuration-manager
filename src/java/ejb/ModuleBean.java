@@ -36,6 +36,19 @@ public class ModuleBean {
         }
     }
 
+    
+    public List<ModuleDTO> getCurrentTemplateModules(int templateCode){
+         try{
+           Configuration template=em.find(Configuration.class, templateCode);
+           if(template==null){
+               return null;
+           }
+           return modulesToDTOs(template.getModules());
+           
+         }catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
             
     public static ModuleDTO moduleToDTO(Module module){
         return new ModuleDTO(module.getId(),module.getName());

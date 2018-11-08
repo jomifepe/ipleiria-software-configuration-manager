@@ -436,5 +436,12 @@ public class SoftwareManager implements Serializable {
     
     
     
-    
+    public List<ModuleDTO> getCurrentTemplateModules(){
+        try{
+            return moduleBean.getCurrentTemplateModules(currentTemplate.getId());
+        }catch (Exception e) {
+            logger.warning("Problem fetching all configurations in method getCurrentSoftwareConfigurations");
+            return null;
+        }
+    }
 }
