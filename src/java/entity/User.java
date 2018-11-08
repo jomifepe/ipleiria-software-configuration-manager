@@ -28,8 +28,7 @@ public class User implements Serializable {
             message = "{invalid.email}")
     @NotNull protected String email;
     
-    public User(){
-    }
+    public User() {}
 
     public User(String username, String password, String name, String email) {
         this.username = username;

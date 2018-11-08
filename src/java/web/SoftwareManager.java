@@ -242,15 +242,17 @@ public class SoftwareManager implements Serializable {
     
 
     public String validateUsernamePassword() {
-        loggedUser = null; 
-        loggedUser = clientBean.isValid(userUsername, userPassword);
+        String typedUsername = loggedUser.getUsername();
+        String typedPassword = loggedUser.getPassword();
+        
+        loggedUser = clientBean.isValid(typedUsername, typedPassword);
         if(loggedUser == null){ //É client?
-            loggedUser = administratorBean.validAdmin(userUsername, userPassword);
+            loggedUser = administratorBean.validAdmin(typedUsername, typedPassword);
             if(loggedUser == null){//É admin?
-                return "login";
+                return "login?faces-redirect=true";
             }
         }
-        return "user_overview";
+        return "user_overview?faces-redirect=true";
     }
     
     

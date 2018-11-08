@@ -36,7 +36,7 @@
                                     size="20"
                                     required="true"
                                     requiredMessage="Error: Username cannot be empty"
-                                    value="#{softwareManager.userUsername}" />
+                                    value="#{softwareManager.loggedUser.username}" />
                                 <small><h:message for="username" class="form-text" errorStyle="color:red"/></small>
                             </div>
                             <div class="form-group">
@@ -47,7 +47,7 @@
                                     size="20"
                                     required="true"
                                     requiredMessage="Error: Password cannot be empty"
-                                    value="#{softwareManager.userPassword}" />
+                                    value="#{softwareManager.loggedUser.password}" />
                                 <small><h:message for="password" class="form-text" errorStyle="color:red"/></small>
                             </div>
                             <div class="form-group form-check">

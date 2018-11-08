@@ -63,6 +63,10 @@
                                             <f:setPropertyActionListener target="#{softwareManager.currentSoftware}" value="#{software}"/>
                                             <i class="fas fa-edit"></i>
                                         </h:commandLink>
+                                        <h:commandLink class="btn btn-warning ml-1" action="admin_module_manager?faces-redirect=true" title="Remove software">
+                                            <f:setPropertyActionListener target="#{softwareManager.currentSoftware}" value="#{software}"/>
+                                            <i class="fas fa-puzzle-piece"></i>
+                                        </h:commandLink>
                                         <h:commandLink class="btn btn-danger ml-1" actionListener="#{softwareManager.removeSoftware}" title="Remove software">
                                             <f:param name="deleteSoftwareId" id="deleteSoftwareId" value="#{software.id}"/>
                                             <i class="fas fa-trash"></i>

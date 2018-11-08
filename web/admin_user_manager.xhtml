@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>SCM - Sign in</title>
         <link rel="stylesheet" type="text/css" href="assets/css/vendor/bootstrap.min.css" />
@@ -31,39 +32,40 @@
                         <div class="col col-md-12">
                             <h:form>
                                 <h2 class="mt-5 mb-3">Clients</h2>
-                                <h:dataTable
+                                <p:dataTable
                                     class="table table-striped table-bordered"
                                     var="client"
                                     summary="List of all clients"
                                     value="${softwareManager.allClients}"
-                                    rules="all"
-                                    cellpadding="5">
+                                    paginator="true"
+                                    rows="5"
+                                    rowKey="#{client.username}" >
 
-                                    <h:column>
+                                    <p:column>
                                         <f:facet name="header">
                                             <h:outputText value="Name"/>
                                         </f:facet>
                                         <h:outputText value="#{client.name}"/>
-                                    </h:column>
-                                    <h:column>
+                                    </p:column>
+                                    <p:column>
                                         <f:facet name="header">
                                             <h:outputText value="Username"/>
                                         </f:facet>
                                         <h:outputText value="#{client.username}"/>
-                                    </h:column>
-                                    <h:column>
+                                    </p:column>
+                                    <p:column>
                                         <f:facet name="header">
                                             <h:outputText value="Email"/>
                                         </f:facet>
                                         <h:outputText value="#{client.email}"/>
-                                    </h:column>
-                                    <h:column>
+                                    </p:column>
+                                    <p:column>
                                         <f:facet name="header">
                                             <h:outputText value="Address"/>
                                         </f:facet>
                                         <h:outputText value="#{client.address}"/>
-                                    </h:column>
-                                    <h:column>
+                                    </p:column>
+                                    <p:column>
                                         <f:facet name="header"> 
                                             <h:outputText value="Actions"/>
                                         </f:facet>
@@ -80,8 +82,8 @@
                                             <f:param name="deleteClientUsername" id="deleteClientUsername" value="#{client.username}"/>
                                             <i class="fas fa-trash"></i>
                                         </h:commandLink>
-                                    </h:column>
-                                </h:dataTable>
+                                    </p:column>
+                                </p:dataTable>
                                 <h:link class="btn btn-success btn-block btn-lg" outcome="admin_client_create" value="New Client"/>
                             </h:form>
                         </div>
