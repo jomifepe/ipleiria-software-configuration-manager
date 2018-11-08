@@ -9,7 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Parameter implements Serializable {
@@ -18,11 +20,12 @@ public class Parameter implements Serializable {
     private String name;
     private String value;
     
-    @ManyToMany(mappedBy = "parameters")
-    private List<Configuration> configurations;
+    @ManyToOne
+    @JoinColumn(name="MODULE_ID")
+    private Module module;
 
     public Parameter() {
-        this.configurations = new ArrayList<>();
+       
     }
     
     
@@ -30,7 +33,6 @@ public class Parameter implements Serializable {
         this.id = id;
         this.name = name;
         this.value = value;
-        this.configurations = new ArrayList<>();
     }
 
     public int getId() {
@@ -57,17 +59,12 @@ public class Parameter implements Serializable {
         this.value = value;
     }
 
-    public List<Configuration> getConfigurations() {
-        return configurations;
+    public Module getModule() {
+        return module;
     }
 
-    public void setConfigurations(List<Configuration> configurations) {
-        this.configurations = configurations;
-    }
-    
-    
-    
-    
-    
+    public void setModule(Module module) {
+        this.module = module;
+    }   
     
 }

@@ -34,19 +34,6 @@ public class ParameterBean {
             throw new EJBException(e.getMessage());
         }
     }
-
-    public List<ParameterDTO> getConfigurationParameters(int id) {
-         try{
-            Configuration configuration = em.find(Configuration.class,id);
-            if(configuration==null){
-                return null;
-            }
-            return parametersToDTOs(configuration.getParameters());
-            
-        }catch(Exception e){
-            throw new EJBException(e.getMessage());
-        }
-    }
     
     
     ParameterDTO parameterToDTO(Parameter parameter){

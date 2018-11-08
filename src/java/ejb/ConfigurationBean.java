@@ -6,10 +6,7 @@ import dtos.SoftwareDTO;
 import entity.Client;
 import entity.Configuration;
 import entity.Module;
-import entity.Parameter;
 import entity.Software;
-import entity.User;
-import entity.Administrator;
 import entity.ConfigurationType;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,11 +56,8 @@ public class ConfigurationBean {
                 return ;
             }
    
-            
-            //Configuration configuration = new Configuration(id,description,software,configurationType,templateId,contractInfo,status);
-            Configuration configuration = new Configuration(id, description, software, template.getModules(), template.getHardware(), template.getLicences(), template.getParameters(), template.getExtensions(), contractInfo, status, configurationType, templateId);
-            
-            
+            Configuration configuration = new Configuration(id, description, software, template.getHardware(), template.getLicences(),contractInfo, status, configurationType, templateId);
+             
             software.addConfiguration(configuration);
             configuration.addClient(client);
             client.addConfiguration(configuration);
@@ -98,39 +92,6 @@ public class ConfigurationBean {
             throw new EJBException(e.getMessage());
         }
     }
-    
-    public void addModule(int id_config, int id_module){
-        try{
-            Configuration configuration = em.find(Configuration.class, id_config);
-            if(configuration==null){
-                return;
-            }
-            
-            Module module = em.find(Module.class, id_module);
-            if(module==null){
-                return;
-            }
-            
-            configuration.addModule(module);
-            
-            em.persist(configuration);
-        }catch(Exception e){
-            throw new EJBException(e.getMessage());
-        }
-    }
-    
-    public List<ModuleDTO> getModules(int configId){
-         try{
-            Configuration config = em.find(Configuration.class, configId);
-            if(config==null){
-                return null;
-            }
-            System.out.println(config.getModules().size());
-            return ModuleBean.modulesToDTOs(config.getModules());      
-        }catch(Exception e){
-            throw new EJBException(e.getMessage());
-        }
-    }
    
     public void addHardware(int id_config, String hardware){
         try{
@@ -141,7 +102,6 @@ public class ConfigurationBean {
             configuration.addHardware(hardware);
             
             em.persist(configuration);
-            //em.merge(configuration);
         }catch(Exception e){
             throw new EJBException(e.getMessage());
         }
@@ -160,61 +120,7 @@ public class ConfigurationBean {
             throw new EJBException(e.getMessage());
         }
     }
-    
-    public void addLicense(int id_config, int id_parameter){
-        try{
-            Configuration configuration = em.find(Configuration.class, id_config);
-            if(configuration==null){
-                return;
-            } 
-            
-            Parameter parameter = em.find(Parameter.class, id_parameter);
-            if(parameter==null){
-                return;
-            } 
-            
-            configuration.addParameter(parameter);
-            
-            em.persist(configuration);
-        }catch(Exception e){
-            throw new EJBException(e.getMessage());
-        }
-    }
-    
-    public void addExtension(int id_config,String extension){
-        try{
-            Configuration configuration = em.find(Configuration.class, id_config);
-            if(configuration==null){
-                return;
-            } 
-                    
-            configuration.addExtension(extension);
-           
-            em.merge(configuration);
-        }catch(Exception e){
-            throw new EJBException(e.getMessage());
-        }
-    }
-    
-     public void addParameter(int id_config,int id_param){
-        try{
-            Configuration configuration = em.find(Configuration.class, id_config);
-            if(configuration==null){
-                return;
-            } 
-            Parameter parameter=em.find(Parameter.class, id_param);
-            if(parameter==null){
-                return;
-            } 
-            
-            configuration.addParameter(parameter);
-           
-            em.persist(configuration);
-        }catch(Exception e){
-            throw new EJBException(e.getMessage());
-        }
-    }
-
+     
      public List<ConfigurationDTO> getCurrentSoftwareTempates(int id) {
          try{
             Software software = em.find(Software.class, id);
@@ -258,7 +164,6 @@ public class ConfigurationBean {
                 config.getDescription(),
                 config.getSoftware().getId(),
                 config.getSoftware().getName(),
-                config.getExtensions(),
                 config.getHardware(),
                 config.getTemplateId(),
                 config.getConfigurationType());
@@ -278,7 +183,6 @@ public class ConfigurationBean {
                 config.getDescription(),
                 config.getSoftware().getId(),
                 config.getSoftware().getName(),
-                config.getExtensions(),
                 config.getContractInfo(),
                 config.getStatus().toString(),
                 config.getHardware(),

@@ -35,32 +35,30 @@ public class TestBean {
         clientBean.create("maria", "123", "Maria Amelia", "maria@mail.pt", "Avenida das avenidas", "925863214");
         clientBean.create("joana", "123", "Joana Preto", "joana@mail.pt", "Quinta das quintas", "936581278");
              
-        softwareBean.create(1, "Office 365", "v1.0");
+        softwareBean.create(1, "Primavera", "v1.0");
         softwareBean.create(2, "NetBeans", "v13.0");
         softwareBean.create(3, "Pycharm", "v11.0");
         softwareBean.create(4, "Steam", "v19.2");
+         
+        parameterBean.create(1,"loginAttemps","10");      
+        parameterBean.create(2,"version","v3.4.1");  
+         
+        moduleBean.create(1, "Recursos Humanos",1);
+        moduleBean.addParameter(1,1);
+        moduleBean.addParameter(1,2);
         
-        moduleBean.create(1, "One Drive");
-        moduleBean.create(2, "Dropbox");
+        moduleBean.addExtension(1, "Calculo empresarial");
         
-        parameterBean.create(1,"loginAttemps","10");
-        
+
         configurationBean.createTemplate(1,"Configuração Office 365",1,ConfigurationType.TEMPLATE);
-        configurationBean.addModule(1,1);
-        configurationBean.addHardware(1,"CPU: Intel core 2 duo");
-        configurationBean.addHardware(1,"RAM: 4 GB ddr3");
-        configurationBean.addHardware(1,"MB: Gigabyte");
-        configurationBean.addLicense(1,"940-664-6353");
-        configurationBean.addParameter(1,1);
-        configurationBean.addExtension(1,"plugins para google docs");
-        configurationBean.addExtension(1,"plugins para kodi");
-        
-        
         configurationBean.createTemplate(2,"Configuração NetBeans",2 ,ConfigurationType.TEMPLATE);
         configurationBean.createTemplate(3,"Configuração Pycharm",3,ConfigurationType.TEMPLATE);
         
         configurationBean.createConfiguration(4, "Melhor config para o Aron",1,"aron", ConfigurationType.CONFIGURATION,"Contrato de 6 meses",Status.ACTIVE);
-        
+         configurationBean.addHardware(4,"CPU: Intel core 2 duo");
+        configurationBean.addHardware(4,"RAM: 4 GB ddr3");
+        configurationBean.addHardware(4,"MB: Gigabyte");
+        configurationBean.addLicense(4,"940-664-6353");
             
     }   
 }

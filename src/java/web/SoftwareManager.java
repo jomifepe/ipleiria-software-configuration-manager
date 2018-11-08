@@ -253,18 +253,7 @@ public class SoftwareManager implements Serializable {
             }
         }
         return "user_overview?faces-redirect=true";
-    }
-    
-    
-    public List<ModuleDTO> getCurrentClientConfigurationModules(int configId){
-        return configurationBean.getModules(configId);
-    }
-    
-   
-   public List<ParameterDTO> getCurrentTemplateParameters(){
-         return parameterBean.getConfigurationParameters(currentTemplate.getId());
-    }
-    
+    } 
     
     public SoftwareDTO getCurrentSoftware() {
         return currentSoftware;
@@ -434,14 +423,11 @@ public class SoftwareManager implements Serializable {
         this.newTemplate = newTemplate;
     }
     
+    public List<ModuleDTO> getCurrentTemplateSoftwareModules(){
+         return moduleBean.getSoftwareModules(currentTemplate.getSoftwareCode());
+    }
     
-    
-    public List<ModuleDTO> getCurrentTemplateModules(){
-        try{
-            return moduleBean.getCurrentTemplateModules(currentTemplate.getId());
-        }catch (Exception e) {
-            logger.warning("Problem fetching all configurations in method getCurrentSoftwareConfigurations");
-            return null;
-        }
+    public List<ModuleDTO> getCurrentSoftwareModules(){
+        return moduleBean.getSoftwareModules(currentSoftware.getId());
     }
 }

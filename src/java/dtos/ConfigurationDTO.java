@@ -21,7 +21,6 @@ public class ConfigurationDTO implements Serializable {
     private String description;
     private int softwareCode;
     private String softwareName;
-    private List<String> extensions;
     private String contractInfo;
     private String status;
     private List<String> hardware;
@@ -32,12 +31,11 @@ public class ConfigurationDTO implements Serializable {
     public ConfigurationDTO() {
     }
 
-    public ConfigurationDTO(int id, String description, int softwareCode, String softwareName, List<String> extensions, String contractInfo, String status, List<String> hardware, int template_id, ConfigurationType configurationType, List<String> licences) {
+    public ConfigurationDTO(int id, String description, int softwareCode, String softwareName,String contractInfo, String status, List<String> hardware, int template_id, ConfigurationType configurationType, List<String> licences) {
         this.id = id;
         this.description = description;
         this.softwareCode = softwareCode;
         this.softwareName = softwareName;
-        this.extensions = extensions;
         this.contractInfo = contractInfo;
         this.status = status;
         this.hardware = hardware;
@@ -46,12 +44,11 @@ public class ConfigurationDTO implements Serializable {
         this.licences = licences;
     }
 
-    public ConfigurationDTO(int id, String description, int softwareCode, String softwareName, List<String> extensions, List<String> hardware, int templateCode, ConfigurationType configurationType) {
+    public ConfigurationDTO(int id, String description, int softwareCode, String softwareName, List<String> hardware, int templateCode, ConfigurationType configurationType) {
        this.id = id;
         this.description = description;
         this.softwareCode = softwareCode;
         this.softwareName = softwareName;
-        this.extensions = extensions;
         this.hardware = hardware;
         this.template_id = templateCode;
         this.configurationType = configurationType;
@@ -72,7 +69,6 @@ public class ConfigurationDTO implements Serializable {
         this.description=null;
         this.softwareCode=0;
         this.softwareName=null;
-        this.extensions=new ArrayList<>();
     }
 
     public int getId() {
@@ -107,13 +103,6 @@ public class ConfigurationDTO implements Serializable {
         this.softwareName = software_name;
     }
 
-    public List<String> getExtensions() {
-        return extensions;
-    }
-
-    public void setExtensions(List<String> extensions) {
-        this.extensions = extensions;
-    }
 
     public String getContractInfo() {
         return contractInfo;

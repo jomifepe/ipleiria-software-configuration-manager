@@ -6,6 +6,9 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -26,17 +29,32 @@ public class Software implements Serializable {
     @OneToMany(mappedBy = "software", cascade = CascadeType.REMOVE)
     private List<Configuration> configurations;
 
+    
+    @OneToMany(mappedBy = "software", cascade = CascadeType.REMOVE)
+    private List<Module> modules;
+    
     public Software() {
         configurations = new ArrayList<>();
+        modules = new ArrayList<>();
     }
 
+    
     public Software(int id, String name, String baseVersion) {
         this.id = id;
         this.name = name;
         this.baseVersion = baseVersion; 
         this.configurations = new ArrayList<>();
+        this.modules = new ArrayList<>();
     }
-   
+
+    public List<Module> getModules() {
+        return modules;
+    }
+
+    public void setModules(List<Module> modules) {
+        this.modules = modules;
+    }
+    
     public void addConfiguration(Configuration config){
         configurations.add(config);
     }
@@ -86,5 +104,9 @@ public class Software implements Serializable {
         }
         
         return templates;
+    }
+    
+    public void addModule(Module module){
+        this.modules.add(module);
     }
 }
