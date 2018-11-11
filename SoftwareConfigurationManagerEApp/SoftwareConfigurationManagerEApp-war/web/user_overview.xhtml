@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>SCM - Sign in</title>
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/animate.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/fontawesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    </h:head>
+    <h:body>
+        <ui:insert>
+            <ui:include src="section_navbar.xhtml" />
+        </ui:insert>
+        
+        <section class="section-content mt-5 animated fadeIn">
+            <div class="container">
+                <div class="d-inline-block">
+                    <h2>Welcome back, 
+                        <c:if test="#{softwareManager.loggedUserAdmin eq true}">
+                            <span class="text-danger">#{softwareManager.loggedUser.name}</span>
+                        </c:if>
+                        <c:if test="#{softwareManager.loggedUserAdmin eq false}">
+                            <span class="text-success">#{softwareManager.loggedUser.name}</span>
+                        </c:if>
+                    </h2>
+                </div>
+            </div>
+        </section> 
+        
+        <script type="text/javascript" src="assets/js/vendor/jquery.min.js"></script>
+        <script type="text/javascript" src="assets/js/vendor/bootstrap.min.js"></script>
+    </h:body>
+</html>
+

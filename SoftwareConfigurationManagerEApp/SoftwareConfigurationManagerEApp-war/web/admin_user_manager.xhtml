@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>SCM - Sign in</title>
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/animate.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/vendor/fontawesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    </h:head>
+    <h:body>
+        <c:if test="#{softwareManager.loggedUserAdmin eq false}">
+            <section class="section-content mt-5 animated fadeIn">
+                <div class="container">
+                    <h2>Insufficient permissions</h2>
+                </div>
+            </section>
+        </c:if>
+        <c:if test="#{softwareManager.loggedUserAdmin eq true}">
+            <ui:insert>
+                <ui:include src="section_navbar.xhtml" />
+            </ui:insert>
+
+            <section class="section-content mt-3 mb-5 animated fadeIn">
+                <div class="container">
+                    <div class="row">
+                        <div class="col col-md-12">
+                            <h:form>
+                                <h2 class="mt-5 mb-3">Clients</h2>
+                                <p:dataTable
+                                    class="table table-striped table-bordered"
+                                    var="client"
+                                    summary="List of all clients"
+                                    value="${softwareManager.allClients}"
+                                    paginator="true"
+                                    rows="5"
+                                    rowKey="#{client.username}" >
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Name"/>
+                                        </f:facet>
+                                        <h:outputText value="#{client.name}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Username"/>
+                                        </f:facet>
+                                        <h:outputText value="#{client.username}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Email"/>
+                                        </f:facet>
+                                        <h:outputText value="#{client.email}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Address"/>
+                                        </f:facet>
+                                        <h:outputText value="#{client.address}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header"> 
+                                            <h:outputText value="Actions"/>
+                                        </f:facet>
+                                        <h:commandLink class="btn btn-primary" action="admin_user_details?faces-redirect=true" title="View client details">
+                                            <f:setPropertyActionListener target="#{softwareManager.currentClient}" value="#{client}"/>
+                                            <i class="fas fa-info-circle"></i>
+                                        </h:commandLink>
+                                        <h:commandLink class="btn btn-info ml-1" action="admin_client_update?faces-redirect=true" title="Edit client">
+                                            <f:setPropertyActionListener target="#{softwareManager.currentClient}" value="#{client}"/>
+                                            <i class="fas fa-edit"></i>
+                                        </h:commandLink>
+                                        
+                                        <h:commandLink class="btn btn-danger ml-1" actionListener="#{softwareManager.deleteClient}" title="Delete client">
+                                            <f:param name="deleteClientUsername" id="deleteClientUsername" value="#{client.username}"/>
+                                            <i class="fas fa-trash"></i>
+                                        </h:commandLink>
+                                    </p:column>
+                                </p:dataTable>
+                                <h:link class="btn btn-success btn-block btn-lg" outcome="admin_client_create" value="New Client"/>
+                            </h:form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-md-12">
+                            <h:form>
+                                <h2 class="mt-5 mb-3">Administrators</h2>
+                                <h:dataTable
+                                    class="table table-striped table-bordered"
+                                    var="administrator"
+                                    summary="List of all clients"
+                                    value="${softwareManager.allAdministrators}"
+                                    rules="all"
+                                    cellpadding="5">
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Name"/>
+                                        </f:facet>
+                                        <h:outputText value="#{administrator.name}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Username"/>
+                                        </f:facet>
+                                        <h:outputText value="#{administrator.username}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Role"/>
+                                        </f:facet>
+                                        <h:outputText value="#{administrator.role}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header"> 
+                                            <h:outputText value="Actions"/>
+                                        </f:facet>
+                                        <h:commandLink class="btn btn-primary" action="#" title="View administrator details">
+                                            <f:setPropertyActionListener target="#{softwareManager.currentAdministrator}" value="#{administrator}"/>
+                                            <i class="fas fa-info-circle"></i>
+                                        </h:commandLink>
+                                        <h:commandLink class="btn btn-info ml-1" action="admin_administrator_update?faces-redirect=true" title="Edit administrator">
+                                            <f:setPropertyActionListener target="#{softwareManager.currentAdministrator}" value="#{administrator}"/>
+                                            <i class="fas fa-edit"></i>
+                                        </h:commandLink>
+                                        <h:commandLink class="btn btn-danger ml-1" actionListener="#{softwareManager.deleteAdministrator}" title="Delete administrator">
+                                            <f:param name="deleteAdministratorUsername" id="deleteAdministratorUsername" value="#{administrator.username}"/>
+                                            <i class="fas fa-trash"></i>
+                                        </h:commandLink>
+                                    </h:column>
+                                </h:dataTable>
+                                <h:link class="btn btn-success btn-block btn-lg" outcome="admin_administrator_create" value="New Administrator"/>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </c:if>
+        <script type="text/javascript" src="assets/js/vendor/jquery.min.js"></script>
+        <script type="text/javascript" src="assets/js/vendor/bootstrap.min.js"></script>
+    </h:body>
+</html>
+
